@@ -26,6 +26,14 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+.notification:hover .notification-hover\:line-clamp-none {
+  display: -webkit-box;
+  -webkit-line-clamp: unset;
+  -webkit-box-orient: vertical;
+  overflow: visible;
+}
+
+
 @layer utilities {
   .text-balance {
     text-wrap: balance;
