@@ -1,13 +1,10 @@
 import type { NextApiRequest, NextApiResponse } from "next";
-import { prisma } from "../../../utils/db/prisma";
-import {
-  ResponseSuccess,
-  ResponseError,
-} from "../../../utils/helpers/response";
+import { prisma } from "@/utils/db/prisma";
+import { ResponseSuccess, ResponseError } from "@/utils/helpers/response";
 
 export default async function handler(
   req: NextApiRequest,
-  res: NextApiResponse<ResponseSuccess>
+  res: NextApiResponse<ResponseSuccess | ResponseError>
 ) {
   if (req.method === "GET") {
     try {

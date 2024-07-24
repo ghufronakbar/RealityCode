@@ -15,8 +15,8 @@ const config: Config = {
           "abstract-1": "url('/wallpaper/wallpaper1.jpg')",
       },
       colors: {
-        primary:"#1D161E",
-        secondary:"#1B141C",
+        primary:"#1D171E",
+        secondary:"#1B151C",
         tertiary:"#1C151D",
         accent:"#A57399",
       },

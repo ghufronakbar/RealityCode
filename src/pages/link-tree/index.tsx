@@ -1,6 +1,6 @@
 import NotificationLoading from "@/components/loading/NotificationLoading";
 import getLinks from "@/features/link/getLink";
-import { TypeLink } from "@/type/Link";
+import { TypeLink } from "@/type/TypeLink";
 import formatDateTime from "@/utils/format/formatDateTime";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
