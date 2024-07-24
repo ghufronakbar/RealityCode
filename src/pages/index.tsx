@@ -135,7 +135,7 @@ function Hero() {
         </p>
         <a
           href="#features"
-          className="bg-accent text-white font-bold py-2 px-4 rounded-full backdrop-blur-lg shadow-xl transform transition-transform duration-300 hover:scale-110"
+          className="bg-accent bg-opacity-30 text-white font-bold py-2 px-4 rounded-full backdrop-blur-lg shadow-xl transform transition-transform duration-300 hover:scale-110"
         >
           Order Now
         </a>
@@ -248,7 +248,7 @@ function TestimonialCard({
   return (
     <div className="w-full md:w-1/2 px-4 mb-8 hover:scale-105 transition-transform duration-300 mx-2 md:mx-0">
       <div className="bg-primary p-6 rounded-lg shadow-lg">
-        <p className="text-white mb-4">"{feedback}"</p>
+        <p className="text-white mb-4">&quot;{feedback}&quot;</p>
         <h4 className="text-accent font-bebas">{name}</h4>
       </div>
     </div>
@@ -294,7 +294,7 @@ function Contact() {
         id="toast-default"
         className={
           isOpen
-            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300`
+            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 bg-opacity-20 backdrop-blur-lg`
             : "hidden"
         }
         role="alert"
@@ -330,9 +330,9 @@ function Contact() {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"              
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
             />
           </svg>
@@ -347,7 +347,7 @@ function Contact() {
         id="toast-default"
         className={
           isError
-            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300`
+            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 bg-opacity-20 backdrop-blur-lg`
             : "hidden"
         }
         role="alert"
@@ -381,9 +381,9 @@ function Contact() {
           >
             <path
               stroke="currentColor"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-              stroke-width="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
               d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
             />
           </svg>
@@ -395,21 +395,7 @@ function Contact() {
   return (
     <section id="contact" className="py-20 bg-tertiary text-center">
       <ToastSuccess />
-      <ToastError />
-      <button
-        onClick={() => {
-          setIsOpen(!isOpen);
-        }}
-      >
-        Test
-      </button>
-      <button
-        onClick={() => {
-          setIsError(!isError);
-        }}
-      >
-        Test
-      </button>
+      <ToastError />     
       <div className="container mx-auto">
         <h2 className="text-4xl font-bebas text-accent mb-8">Contact Us</h2>
         <p className="text-lg mb-8">
