@@ -40,7 +40,7 @@ const LinkTree = () => {
                     <div className="w-full flex items-center gap-4">
                       <Image
                         src={link.icon}
-                        alt="icon"
+                        alt={link.title}
                         width={40}
                         height={40}
                         className="w-10 h-10"
