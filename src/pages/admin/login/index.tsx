@@ -1,4 +1,4 @@
-import axios from "axios";
+import axios, { AxiosResponse } from "axios";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import React from "react";
@@ -11,9 +11,18 @@ const Login = () => {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const router = useRouter();
 
+  interface AxiosError<T = any> extends Error {
+    config?: any;
+    code?: string;
+    request?: any;
+    response?: AxiosResponse<T>;
+    isAxiosError: boolean;
+    toJSON: () => object;
+  }
+
   const handleLogin = async () => {
     try {
-      await axios.post("/api/admin/login", {
+      const response = await axios.post("/api/admin/login", {
         password,
         email,
       });
@@ -25,7 +34,8 @@ const Login = () => {
         router.push("/admin/dashboard");
       }, 3000);
     } catch (error) {
-      setErrorMessage(error.response.data.message);
+      const axiosError = error as AxiosError;
+      setErrorMessage(axiosError.response?.data?.message);
       setIsError(true);
       setTimeout(() => {
         setIsError(false);
@@ -143,8 +153,8 @@ const Login = () => {
     >
       <ToastSuccess />
       <ToastError errorMessage={errorMessage} />
-      <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-12 rounded-3xl bg-opacity-10 backdrop-blur-lg">
-        <h2 className="text-4xl font-bebas text-accent mb-8">Login as Admin</h2>
+      <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-12 rounded-3xl bg-opacity-10 backdrop-blur-lg w-[80vw] md:w-auto ">
+        <h2 className="text-4xl font-bebas text-white mb-8">Login as Admin</h2>
         <p className="text-lg mb-8">
           Reality Code is a project created by{" "}
           <a href="mailto:contact@realitycode.com" className="text-accent">

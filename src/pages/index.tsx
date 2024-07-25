@@ -393,7 +393,7 @@ function Contact() {
   };
 
   return (
-    <section id="contact" className="py-20 bg-tertiary text-center">
+    <section id="contact" className="py-20 px-6 bg-tertiary text-center">
       <ToastSuccess />
       <ToastError />     
       <div className="container mx-auto">

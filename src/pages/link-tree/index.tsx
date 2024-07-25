@@ -51,7 +51,7 @@ const LinkTree = () => {
                             {link.title}
                           </div>
                           <div className="text-gray-200 font-montserrat text-xs line-clamp-1">
-                            {formatDateTime(link.createdAt)}
+                            {formatDateTime(link.updatedAt)}
                           </div>
                         </div>
                         <div className="text-gray-200 font-montserrat text-sm md:text-sm line-clamp-3 notification-hover:line-clamp-none transition-all duration-300">
