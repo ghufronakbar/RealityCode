@@ -102,7 +102,7 @@ const UMKM = () => {
                             <div className="md:w-1/4 w-1/2 h-[2px] bg-didesa-1 self-end" />
                             <div className="font-rubik text-gray-500 text-sm md:text-base ">Dukung dan kembangkan usaha kecil dan menengah dengan platform pemasaran digital yang efektif.</div>
                         </div>
-                        <div className="flex flex-row gap-4">
+                        <div className="flex flex-row gap-4 self-end">
                             <div className="w-fit h-fit p-2 rounded-lg focus:outline-none bg-didesa-2 text-white hover:bg-didesa-1 transition-colors duration-300">
                                 <MdOutlineNavigateNext className="w-6 h-6 rotate-180" />
                             </div>
