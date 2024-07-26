@@ -121,7 +121,7 @@ const UMKM = () => {
                           <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
                           <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
                           <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
+                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="last" />                    
                         </div>                                                                    
                     </div>
             </section>
@@ -203,6 +203,7 @@ const Navbar = () => {
     const [showNavbar, setShowNavbar] = useState(true);
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
+    const [activeSection, setActiveSection] = useState('');
     let lastScrollTop = 0;
 
     useEffect(() => {
@@ -220,46 +221,59 @@ const Navbar = () => {
             } else {
                 setIsScrolled(false);
             }
+    
+            // Update active section
+            const sections = ['hero', 'berita', 'umkm', 'pemilihan'];
+            let currentSection = '';
+            for (const section of sections) {
+                const element = document.getElementById(section);
+                if (element && scrollTop >= element.offsetTop - 100 && scrollTop < element.offsetTop + element.offsetHeight) {
+                    currentSection = section;
+                    break;
+                }
+            }
+            setActiveSection(currentSection);
         };
-
+    
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
+    
 
     const handleMenuToggle = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
     };
 
     return (
-        <nav className={`fixed w-full z-50 ${showNavbar ? 'top-0' : '-top-20'} transition-top duration-300 ${isScrolled ? 'bg-white text-black shadow-md' : 'bg-transparent text-white'}`}>
+        <nav className={`fixed w-full z-50 ${showNavbar ? 'top-0' : '-top-20'} transition-top duration-300 ${isScrolled ? 'bg-white text-black shadow-md' : isMobileMenuOpen ? 'bg-white text-black shadow-md' : 'bg-transparent text-white'}`}>
             <div className="container mx-auto flex justify-between items-center p-4 font-rubik">
                 <div className="text-xl font-bold font-playfair">DiDesa</div>
                 <div className="hidden md:flex space-x-4">
-                    <Link href="#hero" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Beranda</Link>
-                    <Link href="#berita" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Berita</Link>
-                    <Link href="#umkm" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>UMKM</Link>
-                    <Link href="#pemilihan" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Pemilihan</Link>
+                    <Link href="#hero" className={`font-rubik transition-colors duration-300 ${activeSection === 'hero' ? 'underline underline-offset-8' : 'underline-offset-4'} hover:text-didesa-1`}>Beranda</Link>
+                    <Link href="#berita" className={`font-rubik transition-colors duration-300 ${activeSection === 'berita' ? 'underline underline-offset-8' : 'underline-offset-4'} hover:text-didesa-1`}>Berita</Link>
+                    <Link href="#umkm" className={`font-rubik transition-colors duration-300 ${activeSection === 'umkm' ? 'underline underline-offset-8' : 'underline-offset-4'} hover:text-didesa-1`}>UMKM</Link>
+                    <Link href="#pemilihan" className={`font-rubik transition-colors duration-300 ${activeSection === 'pemilihan' ? 'underline underline-offset-8' : 'underline-offset-4'} hover:text-didesa-1`} >Pemilihan</Link>
                 </div>
                 <div className="md:hidden">
                     <button onClick={handleMenuToggle} className="focus:outline-none">
-                        <svg className={`w-6 h-6 ${isScrolled ? 'text-black' : 'text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                        <svg className={`w-6 h-6 ${isScrolled ? 'text-black' : isMobileMenuOpen ? 'text-black' : 'text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
                             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}></path>
                         </svg>
                     </button>
                 </div>
             </div>
             {isMobileMenuOpen && (
-                <div className={`md:hidden ${isScrolled ? 'bg-white' : 'bg-transparent'} shadow-md`}>
-                    <Link href="#hero" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Beranda</Link>
-                    <Link href="#berita" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Berita</Link>
-                    <Link href="#umkm" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>UMKM</Link>
-                    <Link href="#pemilihan" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Pemilihan</Link>
+                <div className={`md:hidden bg-white shadow-md transition-all duration-300 `}>
+                    <Link href="#hero" className='block text-black hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Beranda</Link>
+                    <Link href="#berita" className='block text-black hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Berita</Link>
+                    <Link href="#umkm" className='block text-black hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>UMKM</Link>
+                    <Link href="#pemilihan" className='block text-black hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Pemilihan</Link>
                 </div>
             )}
         </nav>
-    );
+    );    
 };
 
 const DiDesa = () => {
