@@ -22,7 +22,7 @@ const Hero = () => {
                         </div>
                     </div>
                     <Link href={"https://play.google.com/store/apps/details?id=com.didesa"} target="_blank">
-                    <button className="w-fit h-fit py-2 px-4 mt-24 mx-auto bg-didesa-1 text-white text-sm items-center flex  backdrop-blur-sm rounded-lg font-rubik gap-2 hover:scale-105 transition-all duration-300"> <FaGooglePlay />Unduh Aplikasi</button>
+                        <button className="w-fit h-fit py-2 px-4 mt-24 mx-auto bg-didesa-1 text-white text-sm items-center flex  backdrop-blur-sm rounded-lg font-rubik gap-2 hover:scale-105 transition-all duration-300"> <FaGooglePlay />Unduh Aplikasi</button>
                     </Link>
                 </div>
             </section>
@@ -48,21 +48,21 @@ const BeritaPopuler = () => {
                             <div className="w-fit h-fit p-2 rounded-lg focus:outline-none bg-didesa-1 text-white hover:bg-didesa-2 transition-colors duration-300">
                                 <MdOutlineNavigateNext className="w-6 h-6" />
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 {/* CONTAINER CARD */}
-                    <div className="horizontal-scroll mt-4">
-                        <div className="scroll-container">                            
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"first"}/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1"/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1"/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1"/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1"/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1"/>       
-                           <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"last"}/>                        
-                        </div>                                                                    
+                <div className="horizontal-scroll mt-4">
+                    <div className="scroll-container">
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"first"} />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
+                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"last"} />
                     </div>
+                </div>
             </section>
         </>
     )
@@ -75,26 +75,26 @@ interface CardBeritaProps {
     content: string
     index?: "first" | "last"
 }
-const CardBerita = ({ image, title, date, content,index }: CardBeritaProps) => {
+const CardBerita = ({ image, title, date, content, index }: CardBeritaProps) => {
     return (
-      <div className={`relative w-60 h-80 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 hover:scale-105 transition-transform duration-300 ${index=="first"? "lg:ml-32 md:ml-20 ml-8":""}  ${index=="last"? "lg:mr-32 md:mr-20 mr-8":""}  `}>        
-        <Image src={image} alt={title} layout="fill" objectFit="cover" className="rounded-2xl" />
-        <div className="absolute inset-0 flex flex-col items-start justify-end bg-black bg-opacity-25 p-4 rounded-2xl">
-          <div className="flex flex-row justify-between w-full items-center">
-            <div className="text-white font-playfair text-2xl max-w-[40vw] line-clamp-1">{title}</div>
-            <div className="text-white font-rubik text-xs">{date}</div>
-          </div>
-          <div className="text-white line-clamp-1 font-rubik text-xs">{content}</div>
+        <div className={`relative w-60 h-80 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 hover:scale-105 transition-transform duration-300 ${index == "first" ? "lg:ml-32 md:ml-20 ml-8" : ""}  ${index == "last" ? "lg:mr-32 md:mr-20 mr-8" : ""}  `}>
+            <Image src={image} alt={title} layout="fill" objectFit="cover" className="rounded-2xl" />
+            <div className="absolute inset-0 flex flex-col items-start justify-end bg-black bg-opacity-25 p-4 rounded-2xl">
+                <div className="flex flex-row justify-between w-full items-center">
+                    <div className="text-white font-playfair text-2xl max-w-[40vw] line-clamp-1">{title}</div>
+                    <div className="text-white font-rubik text-xs">{date}</div>
+                </div>
+                <div className="text-white line-clamp-1 font-rubik text-xs">{content}</div>
+            </div>
         </div>
-      </div>
     );
-  };
+};
 
 
 const UMKM = () => {
     return (
         <>
-         <section id="umkm" className="w-full bg-white">
+            <section id="umkm" className="w-full bg-white">
                 <div className="w-full h-full pt-16 lg:px-32 md:px-20 px-8 gap-2">
                     <div className="w-full h-full flex flex-col md:flex-row-reverse justify-between gap-4">
                         <div className="w-full h-full flex flex-col gap-2 self-end text-end ">
@@ -109,21 +109,21 @@ const UMKM = () => {
                             <div className="w-fit h-fit p-2 rounded-lg focus:outline-none bg-didesa-1 text-white hover:bg-didesa-2 transition-colors duration-300">
                                 <MdOutlineNavigateNext className="w-6 h-6" />
                             </div>
-                        </div>                        
+                        </div>
                     </div>
                 </div>
                 {/* CONTAINER CARD */}
-                    <div className="horizontal-scroll mt-4">
-                        <div className="scroll-container">                            
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="first"/>                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />                    
-                          <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="last" />                    
-                        </div>                                                                    
+                <div className="horizontal-scroll mt-4">
+                    <div className="scroll-container">
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="first" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
+                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="last" />
                     </div>
+                </div>
             </section>
         </>
     )
@@ -136,30 +136,30 @@ interface CardUMKMProps {
     description: string;
     address: string;
     index?: "first" | "last"
-  }
-  
-  const CardUMKM = ({ image, name, type, description, address, index }: CardUMKMProps) => {
+}
+
+const CardUMKM = ({ image, name, type, description, address, index }: CardUMKMProps) => {
     return (
-      <div className={`w-60 h-96 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 bg-white hover:scale-105  transition-transform duration-300 ${index=="first"? "lg:ml-32 md:ml-20 ml-8":""}  ${index=="last"? "lg:mr-32 md:mr-20 mr-8":""}`}>
-        <div className="relative h-2/5">
-          <Image src={image} alt={name} layout="fill" objectFit="cover" className="rounded-t-2xl" />
+        <div className={`w-60 h-96 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 bg-white hover:scale-105  transition-transform duration-300 ${index == "first" ? "lg:ml-32 md:ml-20 ml-8" : ""}  ${index == "last" ? "lg:mr-32 md:mr-20 mr-8" : ""}`}>
+            <div className="relative h-2/5">
+                <Image src={image} alt={name} layout="fill" objectFit="cover" className="rounded-t-2xl" />
+            </div>
+            <div className="p-4 h-3/5 flex flex-col justify-between bg-didesa-3">
+                <div>
+                    <div className="md:text-2xl text-xl font-bold font-rubik text-black">{name}</div>
+                    <div className="bg-didesa-1 text-white text-xs px-2 py-1 rounded-full inline-block mt-2 font-rubik uppercase">{type}</div>
+                    <div className="text-sm mt-2 line-clamp-3 font-rubik text-black">{description}</div>
+                </div>
+                <div className="flex justify-between items-center mt-4">
+                    <div className="text-xs text-gray-600 font-rubik">{address}</div>
+                    <button className="bg-didesa-1 text-white text-xs px-4 py-2 rounded-lg font-rubik">Detail</button>
+                </div>
+            </div>
         </div>
-        <div className="p-4 h-3/5 flex flex-col justify-between bg-didesa-3">
-          <div>
-            <div className="md:text-2xl text-xl font-bold font-rubik text-black">{name}</div>
-            <div className="bg-didesa-1 text-white text-xs px-2 py-1 rounded-full inline-block mt-2 font-rubik uppercase">{type}</div>
-            <div className="text-sm mt-2 line-clamp-3 font-rubik text-black">{description}</div>
-          </div>
-          <div className="flex justify-between items-center mt-4">
-            <div className="text-xs text-gray-600 font-rubik">{address}</div>
-            <button className="bg-didesa-1 text-white text-xs px-4 py-2 rounded-lg font-rubik">Detail</button>
-          </div>
-        </div>
-      </div>
     );
-  };
-  const PemilihanKepalaDesa = () => {
-    return(
+};
+const PemilihanKepalaDesa = () => {
+    return (
         <section id="pemilihan" className="w-full pt-16 pb-40 bg-white">
             <div className="w-full h-full lg:px-32 md:px-20 px-8 gap-2">
                 <div className="w-full h-full flex flex-col md:flex-row justify-between gap-4">
@@ -167,10 +167,10 @@ interface CardUMKMProps {
                         <div className="font-playfair text-black lg:text-6xl md:text-5xl text-4xl">Pemilihan Kepala Desa</div>
                         <div className="md:w-1/4 w-1/2 h-[2px] bg-didesa-1" />
                         <div className="font-rubik text-gray-500 text-sm md:text-base ">Ikuti pemilihan kepala desa dengan mudah dan aman melalui sistem voting online yang transparan dan terjamin.</div>
-                    </div>                                     
+                    </div>
                 </div>
             </div>
-            
+
             <div className="w-full h-full mt-8 flex md:flex-row flex-col lg:px-32 md:px-20 px-8 gap-8">
                 <div className="w-full h-full">
                     <Image src={"/didesa/wallpaper.jpg"} alt="wallpaper" width={500} height={500} className="object-cover rounded-lg self-center mx-auto w-full"
@@ -181,10 +181,10 @@ interface CardUMKMProps {
                         <div className="font-playfair text-black lg:text-4xl md:text-3xl text-2xl">Menuju Desa Demokrasi</div>
                         <div className="font-rubik text-black text-base">Menjadi desa demokrasi berarti memberdayakan setiap warga untuk terlibat aktif dalam proses pengambilan keputusan. Melalui sistem yang transparan dan inklusif, setiap suara dihargai dan setiap pendapat didengar. Sistem pemilihan yang adil dan terbuka memastikan bahwa semua warga memiliki kesempatan yang sama untuk berpartisipasi dalam memilih pemimpin mereka. Dengan teknologi digital, proses pemilihan menjadi lebih mudah diakses dan efisien, menghilangkan hambatan geografis dan administratif. Ini adalah langkah besar menuju pemerintahan desa yang lebih partisipatif dan representatif.</div>
                         <div className="font-rubik text-didesa-1 text-sm md:text-base">Lihat Selengkapnya &rarr;</div>
-                        
+
                     </div>
                 </div>
-            </div>           
+            </div>
         </section>
     )
 }
@@ -215,13 +215,13 @@ const Navbar = () => {
                 setShowNavbar(true);
             }
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
-            
+
             if (scrollTop > window.innerHeight) {
                 setIsScrolled(true);
             } else {
                 setIsScrolled(false);
             }
-    
+
             // Update active section
             const sections = ['hero', 'berita', 'umkm', 'pemilihan'];
             let currentSection = '';
@@ -234,13 +234,13 @@ const Navbar = () => {
             }
             setActiveSection(currentSection);
         };
-    
+
         window.addEventListener('scroll', handleScroll);
         return () => {
             window.removeEventListener('scroll', handleScroll);
         };
     }, []);
-    
+
 
     const handleMenuToggle = () => {
         setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -273,7 +273,7 @@ const Navbar = () => {
                 </div>
             )}
         </nav>
-    );    
+    );
 };
 
 const DiDesa = () => {
