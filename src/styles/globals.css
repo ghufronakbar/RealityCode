@@ -30,6 +30,25 @@ body {
     rgb(var(--background-start-rgb));
 }
 
+
+.scroll-container {
+  display: flex;
+  width: 100%;
+  gap: 1rem;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+}
+.horizontal-scroll{
+  width: 100%;
+  overflow-x: scroll;
+  scrollbar-color: transparent transparent; 
+}
+
+.horizontal-scroll::-webkit-scrollbar {
+  display: none;
+}
+
+
 .notification:hover .notification-hover\:line-clamp-none {
   display: -webkit-box;
   -webkit-line-clamp: unset;
