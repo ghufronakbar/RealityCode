@@ -1,6 +1,7 @@
 import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 import { CiSearch } from "react-icons/ci";
 import { FaGooglePlay } from "react-icons/fa";
 import { MdOutlineNavigateNext } from "react-icons/md";
@@ -198,6 +199,68 @@ const Footer = () => {
     );
 }
 
+const Navbar = () => {
+    const [showNavbar, setShowNavbar] = useState(true);
+    const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+    const [isScrolled, setIsScrolled] = useState(false);
+    let lastScrollTop = 0;
+
+    useEffect(() => {
+        const handleScroll = () => {
+            let scrollTop = window.scrollY || document.documentElement.scrollTop;
+            if (scrollTop > lastScrollTop) {
+                setShowNavbar(false);
+            } else {
+                setShowNavbar(true);
+            }
+            lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
+            
+            if (scrollTop > window.innerHeight) {
+                setIsScrolled(true);
+            } else {
+                setIsScrolled(false);
+            }
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => {
+            window.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    const handleMenuToggle = () => {
+        setIsMobileMenuOpen(!isMobileMenuOpen);
+    };
+
+    return (
+        <nav className={`fixed w-full z-50 ${showNavbar ? 'top-0' : '-top-20'} transition-top duration-300 ${isScrolled ? 'bg-white text-black shadow-md' : 'bg-transparent text-white'}`}>
+            <div className="container mx-auto flex justify-between items-center p-4 font-rubik">
+                <div className="text-xl font-bold font-playfair">DiDesa</div>
+                <div className="hidden md:flex space-x-4">
+                    <Link href="#hero" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Beranda</Link>
+                    <Link href="#berita" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Berita</Link>
+                    <Link href="#umkm" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>UMKM</Link>
+                    <Link href="#pemilihan" className='hover:text-didesa-1 font-rubik transition-colors duration-300'>Pemilihan</Link>
+                </div>
+                <div className="md:hidden">
+                    <button onClick={handleMenuToggle} className="focus:outline-none">
+                        <svg className={`w-6 h-6 ${isScrolled ? 'text-black' : 'text-white'}`} fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d={isMobileMenuOpen ? "M6 18L18 6M6 6l12 12" : "M4 6h16M4 12h16m-7 6h7"}></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            {isMobileMenuOpen && (
+                <div className={`md:hidden ${isScrolled ? 'bg-white' : 'bg-transparent'} shadow-md`}>
+                    <Link href="#hero" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Beranda</Link>
+                    <Link href="#berita" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Berita</Link>
+                    <Link href="#umkm" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>UMKM</Link>
+                    <Link href="#pemilihan" className='block hover:text-didesa-1 font-rubik transition-colors duration-300 p-4' onClick={handleMenuToggle}>Pemilihan</Link>
+                </div>
+            )}
+        </nav>
+    );
+};
 
 const DiDesa = () => {
     return (
@@ -208,6 +271,7 @@ const DiDesa = () => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
             <main>
+                <Navbar />
                 <Hero />
                 <BeritaPopuler />
                 <UMKM />
