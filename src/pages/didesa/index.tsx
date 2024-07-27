@@ -54,13 +54,14 @@ const BeritaPopuler = () => {
                 {/* CONTAINER CARD */}
                 <div className="horizontal-scroll mt-4">
                     <div className="scroll-container">
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"first"} />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" />
-                        <CardBerita image="/didesa/wallpaper.jpg" title="Didesa 1" date="20.01.2022" content="Didesa 1" index={"last"} />
+                        <CardBerita image="/didesa/berita-1.jpg" title="Pemilu Indonesia" date="19/01/2024" content="Pemilu Indonesia akan segera dilaksanakan dengan berbagai persiapan yang matang." index="first" />
+                        <CardBerita image="/didesa/berita-2.jpeg" title="Pasar UMKM Desa" date="05/03/2024" content="Pasar UMKM di desa semakin berkembang dengan berbagai produk lokal yang dijual." />
+                        <CardBerita image="/didesa/berita-3.jpg" title="Festival Kebudayaan" date="12/03/2024" content="Festival kebudayaan desa akan menampilkan berbagai kesenian dan tradisi lokal." />
+                        <CardBerita image="/didesa/berita-4.jpg" title="Pelatihan Pertanian" date="20/03/2024" content="Pelatihan pertanian modern untuk para petani desa akan segera dilaksanakan." />
+                        <CardBerita image="/didesa/berita-5.jpg" title="Lomba Kebersihan Desa" date="25/03/2024" content="Desa mengadakan lomba kebersihan untuk meningkatkan kesadaran akan lingkungan." />
+                        <CardBerita image="/didesa/berita-6.jpg" title="Pembukaan Wisata Baru" date="02/04/2024" content="Wisata alam baru di desa akan segera dibuka untuk umum dengan berbagai fasilitas menarik." />
+                        <CardBerita image="/didesa/berita-7.webp" title="Workshop Pengembangan UMKM" date="10/04/2024" content="Workshop untuk pengembangan UMKM di desa akan menghadirkan berbagai narasumber ahli." />
+                        <CardBerita image="/didesa/berita-8.jpeg" title="Gotong Royong Desa" date="18/04/2024" content="Acara gotong royong desa akan dilaksanakan untuk mempererat hubungan antar warga." index="last" />
                     </div>
                 </div>
             </section>
@@ -80,11 +81,11 @@ const CardBerita = ({ image, title, date, content, index }: CardBeritaProps) => 
         <div className={`relative w-60 h-80 rounded-2xl overflow-hidden shadow-lg flex-shrink-0 hover:scale-105 transition-transform duration-300 ${index == "first" ? "lg:ml-32 md:ml-20 ml-8" : ""}  ${index == "last" ? "lg:mr-32 md:mr-20 mr-8" : ""}  `}>
             <Image src={image} alt={title} layout="fill" objectFit="cover" className="rounded-2xl" />
             <div className="absolute inset-0 flex flex-col items-start justify-end bg-black bg-opacity-25 p-4 rounded-2xl">
-                <div className="flex flex-row justify-between w-full items-center">
-                    <div className="text-white font-playfair text-2xl max-w-[40vw] line-clamp-1">{title}</div>
-                    <div className="text-white font-rubik text-xs">{date}</div>
+                <div className="flex flex-row justify-between w-full items-center gap-2">
+                    <div className="text-white font-playfair text-2xl line-clamp-2">{title}</div>
                 </div>
                 <div className="text-white line-clamp-1 font-rubik text-xs">{content}</div>
+                <div className="text-white font-rubik text-xs">{date}</div>
             </div>
         </div>
     );
@@ -115,13 +116,15 @@ const UMKM = () => {
                 {/* CONTAINER CARD */}
                 <div className="horizontal-scroll mt-4">
                     <div className="scroll-container">
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="first" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" />
-                        <CardUMKM image="/didesa/wallpaper.jpg" name="McDonald" type="Makanan" description="Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit.Lorem ipsum dolor sit amet consectetur adipisicing elit." address="Magelang, Jawa Tengah" index="last" />
+                        <CardUMKM image="/didesa/umkm-1.jpg" name="SiKebab" type="Makanan" description="Menyediakan kebab dengan berbagai pilihan isian dan saus yang lezat." address="RT1/RW1" index="first" />
+                        <CardUMKM image="/didesa/umkm-2.jpg" name="DesaBatik Elegance" type="Pakaian" description="Batik tulis khas desa dengan motif unik dan kualitas tinggi." address="RT2/RW2" />
+                        <CardUMKM image="/didesa/umkm-3.jpg" name="KopiKita Brew" type="Minuman" description="Kopi robusta asli desa dengan cita rasa khas yang nikmat." address="RT3/RW3" />
+                        <CardUMKM image="/didesa/umkm-4.jpg" name="BambooCraft Artisan" type="Kerajinan" description="Berbagai kerajinan tangan dari bambu yang artistik dan fungsional." address="RT4/RW4" />
+                        <CardUMKM image="/didesa/umkm-5.jpg" name="SembakoMart" type="Toko" description="Menyediakan kebutuhan sehari-hari dengan harga terjangkau." address="RT5/RW5" />
+                        <CardUMKM image="/didesa/umkm-6.avif" name="TradisiKue Delight" type="Makanan" description="Aneka kue tradisional dengan resep turun-temurun." address="RT6/RW6" />
+                        <CardUMKM image="/didesa/umkm-7.jpg" name="Suwe Ora Jamu" type="Minuman" description="Jamu herbal asli desa yang menyehatkan dan menyegarkan." address="RT7/RW7" />
+                        <CardUMKM image="/didesa/umkm-8.jpeg" name="EleganceShoes Handmade" type="Kerajinan" description="Sepatu handmade dengan kualitas premium dan desain menarik." address="RT8/RW8" index="last" />
+
                     </div>
                 </div>
             </section>
@@ -173,7 +176,7 @@ const PemilihanKepalaDesa = () => {
 
             <div className="w-full h-full mt-8 flex md:flex-row flex-col lg:px-32 md:px-20 px-8 gap-8">
                 <div className="w-full h-full">
-                    <Image src={"/didesa/wallpaper.jpg"} alt="wallpaper" width={500} height={500} className="object-cover rounded-lg self-center mx-auto w-full"
+                    <Image src={"/didesa/pemilihan-1.jpg"} alt="wallpaper" width={500} height={500} className="object-cover rounded-lg self-center mx-auto w-full"
                     />
                 </div>
                 <div className="w-full h-full my-auto">
@@ -204,7 +207,7 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
-    
+
     useEffect(() => {
         let lastScrollTop = 0;
         const handleScroll = () => {
