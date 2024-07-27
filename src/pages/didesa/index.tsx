@@ -204,9 +204,9 @@ const Navbar = () => {
     const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
     const [isScrolled, setIsScrolled] = useState(false);
     const [activeSection, setActiveSection] = useState('');
-    let lastScrollTop = 0;
-
+    
     useEffect(() => {
+        let lastScrollTop = 0;
         const handleScroll = () => {
             let scrollTop = window.scrollY || document.documentElement.scrollTop;
             if (scrollTop > lastScrollTop) {
