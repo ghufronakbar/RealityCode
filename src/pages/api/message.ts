@@ -2,7 +2,7 @@ import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/utils/db/prisma";
 import { ResponseSuccess, ResponseError } from "@/utils/helpers/response";
 import { Message } from "@/models/Message";
-import uploadCloudinary from "@/utils/cloudinary/uploadCloudinary";
+// import uploadCloudinary from "@/utils/cloudinary/uploadCloudinary";
 
 
 export default async function handler(
@@ -10,7 +10,7 @@ export default async function handler(
   res: NextApiResponse<ResponseSuccess | ResponseError>
 ) {
   if (req.method === "POST") {    
-    uploadCloudinary("message").single("file");
+    // uploadCloudinary("message").single("file");
     // console.log(file)
     // const text = JSON.parse(req.body);
     console.log(req);
