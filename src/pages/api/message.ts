@@ -1,7 +1,7 @@
 import type { NextApiRequest, NextApiResponse } from "next";
 import { prisma } from "@/utils/db/prisma";
 import { ResponseSuccess, ResponseError } from "@/utils/helpers/response";
-import { TypeMessage } from "@/type/TypeMessage";
+import { TypeMessage } from "@/models/TypeMessage";
 
 export default async function handler(
   req: NextApiRequest,

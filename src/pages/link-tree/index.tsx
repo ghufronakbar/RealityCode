@@ -1,6 +1,6 @@
 import NotificationLoading from "@/components/loading/NotificationLoading";
 import getLinks from "@/features/link/getLink";
-import { TypeLink } from "@/type/TypeLink";
+import { LinkTree } from "@/models/LinkTree";
 import formatDateTime from "@/utils/format/formatDateTime";
 import { useQuery } from "@tanstack/react-query";
 import Image from "next/image";
@@ -8,11 +8,13 @@ import Link from "next/link";
 import { useState } from "react";
 import { MdNavigateNext } from "react-icons/md";
 
-const LinkTree = () => {
+const LinkTreePage = () => {
   const [limit, setLimit] = useState(3);
   const { data, isError, isLoading, isFetching } = useQuery({
     queryKey: ["links", limit],
     queryFn: () => getLinks(limit),
+    refetchOnWindowFocus: false,
+    staleTime: 1000 * 60 * 60,
   });
 
   return (
@@ -34,7 +36,7 @@ const LinkTree = () => {
                 Error Getting Links :(
               </div>
             ) : data && data.data?.length > 0 ? (
-              data.data.map((link: TypeLink) => (
+              data.data.map((link: LinkTree) => (
                 <Link href={link.url} key={link.id} target="_blank">
                   <div className="relative w-full px-4 py-5 rounded-3xl bg-black bg-opacity-40 backdrop-blur-lg shadow-xl transform transition-transform duration-300 hover:scale-105 hover:shadow-2xl notification">
                     <div className="w-full flex items-center gap-4">
@@ -85,4 +87,4 @@ const LinkTree = () => {
   );
 };
 
-export default LinkTree;
+export default LinkTreePage;
