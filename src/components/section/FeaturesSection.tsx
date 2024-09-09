@@ -4,7 +4,7 @@ import Image from "next/image";
 import createGlobe from "cobe";
 import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
-import { IconBrandYoutubeFilled } from "@tabler/icons-react";
+import { IconBrandTiktokFilled } from "@tabler/icons-react";
 import Link from "next/link";
 
 export default function FeaturesSectionDemo() {
@@ -102,13 +102,14 @@ export const SkeletonThree = () => {
       href="https://tiktok.com/@reality.code"
       target="__blank"
       className="relative flex gap-10  h-full group/image"
+      prefetch={false}
     >
       <div className="w-full  mx-auto bg-transparent dark:bg-transparent group h-full">
         <div className="flex flex-1 w-full h-full flex-col space-y-2  relative">
           {/* TODO */}
-          <IconBrandYoutubeFilled className="h-20 w-20 absolute z-10 inset-0 text-red-500 m-auto " />
+          <IconBrandTiktokFilled className="h-20 w-20 absolute z-10 inset-0 text-red-500 m-auto " />
           <Image
-            src="https://assets.aceternity.com/fireship.jpg"
+            src="/images/feature.png"
             alt="header"
             width={800}
             height={800}

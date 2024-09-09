@@ -8,6 +8,7 @@ import { FileUpload } from "../ui/file-upload";
 import BottomGradient from "../ui/bottom-gradient";
 import ToastNotification from "../ToastNotification";
 import sendMessage from "@/services/user/sendMessage";
+import Highlight from "../ui/highlight";
 
 interface FormContact {
   name: string;
@@ -24,6 +25,7 @@ const ContactSection = () => {
   });
 
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [isRequired, setIsRequired] = useState<boolean>(false);
   const [isError, setIsError] = useState<boolean>(false);
 
   const handleFileUpload = (files: File) => {
@@ -37,21 +39,26 @@ const ContactSection = () => {
       formContact.email == "" ||
       formContact.message == ""
     ) {
-      setIsError(true);
+      setIsRequired(true);
       setTimeout(() => {
-        setIsError(false);
+        setIsRequired(false);
       }, 3000);
       return;
     }
+    setFormContact({
+      name: "",
+      email: "",
+      message: "",
+      file: undefined,
+    });
+    setIsOpen(true);
     try {
-     const response = await sendMessage(formContact.name, formContact.email, formContact.message, formContact.file);
-      setIsOpen(true);
-      setFormContact({
-        name: "",
-        email: "",
-        message: "",
-        file: undefined,
-      });
+      const response = await sendMessage(
+        formContact.name,
+        formContact.email,
+        formContact.message,
+        formContact.file
+      );
       setTimeout(() => {
         setIsOpen(false);
       }, 3000);
@@ -71,6 +78,12 @@ const ContactSection = () => {
       <ToastNotification
         status="error"
         message="Please fill the form."
+        isVisible={isRequired}
+        onClose={() => setIsRequired(false)}
+      />
+      <ToastNotification
+        status="error"
+        message="An error occurred. Please try again later."
         isVisible={isError}
         onClose={() => setIsError(false)}
       />
@@ -80,16 +93,15 @@ const ContactSection = () => {
         </h2>
         <p className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
           Have questions? Reach out to us at{" "}
-          <Link href="mailto:realitycode@outlook.com" className="text-accent">
-            realitycode@outlook.com
+          <Link href="mailto:realitycode@outlook.com">
+            <Highlight>realitycode@outlook.com</Highlight>
           </Link>
         </p>
         <div className="max-w-md w-full mx-auto rounded-none md:rounded-2xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
           <form className="my-8" onSubmit={handleSendMessage}>
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="firstname">Your name</Label>
+              <Label>Your name</Label>
               <Input
-                id="firstname"
                 placeholder="Lans The Prodigy"
                 type="text"
                 value={formContact.name}
@@ -99,9 +111,8 @@ const ContactSection = () => {
               />
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="email">Email Address</Label>
+              <Label>Email Address</Label>
               <Input
-                id="email"
                 placeholder="lanstheprodigy@gmail.com"
                 type="email"
                 value={formContact.email}
@@ -111,9 +122,8 @@ const ContactSection = () => {
               />
             </LabelInputContainer>
             <LabelInputContainer className="mb-4">
-              <Label htmlFor="message">Message</Label>
+              <Label>Message</Label>
               <TextArea
-                id="message"
                 placeholder="I want to reach out to you"
                 rows={6}
                 value={formContact.message}

@@ -3,6 +3,7 @@ export interface Message {
   name: string;
   email: string;
   message: string;
+  file: string;
   createdAt: string;
   updatedAt: string;
 }

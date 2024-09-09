@@ -1,41 +1,24 @@
 import { cn } from "@/utils/cn";
 import { CardStack } from "../ui/card-stack";
+import Highlight from "../ui/highlight";
 
 const TestimonialsSection = () => {
   return (
-    <section
-      id="testimonials"
-      className="py-40 bg-cover bg-fixed text-center"
-    >
+    <section id="testimonials" className="py-40 bg-cover bg-fixed text-center">
       <div className="container mx-auto">
-        <h2 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white my-20">Testimonials</h2>
-        <div className="flex flex-col md:flex-row gap-8 items-center justify-center">         
-          <CardStack items={FIRST_TESTIMONIAL} />
-          <CardStack items={SECOND_TESTIMONIAL} />          
+        <h2 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white my-20">
+          Testimonials
+        </h2>
+        <div className="flex flex-col md:flex-row gap-8 items-center justify-center">
+          <CardStack items={TESTIMONIAL.slice(0, 5)} />
+          <CardStack items={TESTIMONIAL.slice(5, 10)} />
         </div>
       </div>
     </section>
   );
 };
 
-export const Highlight = ({
-  children,
-  className,
-}: {
-  children: React.ReactNode;
-  className?: string;
-}) => {
-  return (
-    <span
-      className={cn(
-        "font-bold bg-emerald-100 text-emerald-700 dark:bg-emerald-700/[0.2] dark:text-emerald-500 px-1 py-0.5",
-        className
-      )}
-    >
-      {children}
-    </span>
-  );
-};
+
 
 interface TestimonialProps {
   id: number;
@@ -44,87 +27,139 @@ interface TestimonialProps {
   content: React.ReactNode;
 }
 
-const FIRST_TESTIMONIAL: TestimonialProps[] = [
+const TESTIMONIAL: TestimonialProps[] = [
   {
     id: 0,
-    name: "Manu Arora",
-    designation: "Senior Software Engineer",
+    name: "Alex Johnson",
+    designation: "Full Stack Developer",
     content: (
       <p>
-        These cards are amazing, <Highlight>I want to use them</Highlight> in my
-        project. Framer motion is a godsend ngl tbh fam 🙏
+        Reality Code helped me{" "}
+        <Highlight>understand complex algorithms</Highlight> in a simple way. A
+        must-visit platform for anyone learning to code!
       </p>
     ),
   },
   {
     id: 1,
-    name: "Elon Musk",
-    designation: "Senior Shitposter",
+    name: "Sarah Thompson",
+    designation: "Junior Frontend Developer",
     content: (
       <p>
-        I dont like this Twitter thing,{" "}
-        <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-        would like to call it <Highlight>X.com</Highlight> so that it can easily
-        be confused with adult sites.
+        The tutorials here are incredibly easy to follow.{" "}
+        <Highlight>Reality Code</Highlight> is my go-to resource when I&apos;m
+        stuck.
       </p>
     ),
   },
   {
     id: 2,
-    name: "Tyler Durden",
-    designation: "Manager Project Mayhem",
+    name: "John Richards",
+    designation: "Amateur Developer",
     content: (
       <p>
-        The first rule of
-        <Highlight>Fight Club</Highlight> is that you do not talk about fight
-        club. The second rule of
-        <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-        club.
+        I started learning JavaScript with Reality Code, and now I&apos;m
+        confident in building projects.{" "}
+        <Highlight>Highly recommended</Highlight> for beginners!
+      </p>
+    ),
+  },
+  {
+    id: 3,
+    name: "Emily Davis",
+    designation: "Backend Engineer",
+    content: (
+      <p>
+        The best part about Reality Code is the community and the comprehensive{" "}
+        <Highlight>reference documentation</Highlight>. It’s an all-in-one
+        platform.
+      </p>
+    ),
+  },
+  {
+    id: 4,
+    name: "Michael Lee",
+    designation: "Tech Enthusiast",
+    content: (
+      <p>
+        As someone who loves tech, I find the posts and tutorials here{" "}
+        <Highlight>engaging and insightful</Highlight>. Keep up the great work!
+      </p>
+    ),
+  },
+  {
+    id: 5,
+    name: "Raka Putra",
+    designation: "Fresh Graduate",
+    content: (
+      <p>
+        Setelah lulus, saya merasa <Highlight>bingung memulai</Highlight>, tapi
+        Reality Code memberikan saya arah yang jelas untuk belajar teknologi.
+        Tutorialnya sangat membantu.
+      </p>
+    ),
+  },
+  {
+    id: 6,
+    name: "Rina Kusuma",
+    designation: "Mahasiswa Baru",
+    content: (
+      <p>
+        Sebagai <Highlight>mahasiswa baru</Highlight> yang belum punya banyak
+        pengalaman, Reality Code sangat membantu saya memahami dasar-dasar
+        pemrograman dengan cara yang mudah!
+      </p>
+    ),
+  },
+  {
+    id: 7,
+    name: "Adi Nugroho",
+    designation: "Pelajar SMA",
+    content: (
+      <p>
+        Saya masih <Highlight>anak sekolah</Highlight>, tapi Reality Code
+        membuat saya bisa belajar coding dengan cepat. Sekarang saya bisa
+        membuat aplikasi sederhana!
+      </p>
+    ),
+  },
+  {
+    id: 8,
+    name: "Fajar Setiawan",
+    designation: "Awam IT",
+    content: (
+      <p>
+        Sebagai orang yang <Highlight>awam dengan dunia IT</Highlight>, platform
+        ini sangat mudah dipahami dan membantu saya untuk mulai belajar coding
+        dari nol.
+      </p>
+    ),
+  },
+  {
+    id: 9,
+    name: "Nadia Pratama",
+    designation: "Mahasiswa D3 Informatika",
+    content: (
+      <p>
+        Reality Code memberikan <Highlight>penjelasan yang sederhana</Highlight>{" "}
+        dan praktis, sangat cocok buat pemula seperti saya yang baru terjun ke
+        dunia teknologi.
+      </p>
+    ),
+  },
+  {
+    id: 10,
+    name: "Sinta Wijaya",
+    designation: "Ibu Rumah Tangga",
+    content: (
+      <p>
+        Saya seorang ibu rumah tangga yang baru belajar coding, dan{" "}
+        <Highlight>Reality Code</Highlight> benar-benar membantu saya belajar
+        dengan langkah-langkah yang mudah diikuti!
       </p>
     ),
   },
 ];
- 
-const SECOND_TESTIMONIAL: TestimonialProps[] = [
-  {
-    id: 0,
-    name: "Manu Arora",
-    designation: "Senior Software Engineer",
-    content: (
-      <p>
-        These cards are amazing, <Highlight>I want to use them</Highlight> in my
-        project. Framer motion is a godsend ngl tbh fam 🙏
-      </p>
-    ),
-  },
-  {
-    id: 1,
-    name: "Elon Musk",
-    designation: "Senior Shitposter",
-    content: (
-      <p>
-        I dont like this Twitter thing,{" "}
-        <Highlight>deleting it right away</Highlight> because yolo. Instead, I
-        would like to call it <Highlight>X.com</Highlight> so that it can easily
-        be confused with adult sites.
-      </p>
-    ),
-  },
-  {
-    id: 2,
-    name: "Tyler Durden",
-    designation: "Manager Project Mayhem",
-    content: (
-      <p>
-        The first rule of
-        <Highlight>Fight Club</Highlight> is that you do not talk about fight
-        club. The second rule of
-        <Highlight>Fight club</Highlight> is that you DO NOT TALK about fight
-        club.
-      </p>
-    ),
-  },
-];
- 
+
 
 export default TestimonialsSection;

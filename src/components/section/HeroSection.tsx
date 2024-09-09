@@ -31,7 +31,7 @@ export default function HeroSection() {
         <div className="w-full flex flex-col items-center justify-center mt-20">
           
 
-          <CustomButton href="/#features">Get Started</CustomButton>
+          <CustomButton href="/#about">Get Started</CustomButton>
         </div>
       </HeroHighlight>
     </section>
