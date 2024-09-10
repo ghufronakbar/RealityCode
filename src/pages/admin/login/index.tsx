@@ -10,8 +10,9 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import React from "react";
-import Cookie from "js-cookie";
+import Cookies from "js-cookie";
 import login from "@/services/auth/login";
+import { COOKIES_KEY } from "@/constants/key";
 
 interface FormLogin {
   email: string;
@@ -47,7 +48,7 @@ const Login = () => {
       const response = await login(formLogin.email, formLogin.password);
       setFormLogin({ email: "", password: "" });
       showToast("Login successful", "success");
-      Cookie.set("token", response.token.refreshToken, { expires: Number.MAX_VALUE });
+      Cookies.set(COOKIES_KEY, response.token.refreshToken, { expires: Number.MAX_VALUE });
       router.push("/admin/dashboard");
     } catch (error) {
       const axiosError = error as AxiosError;

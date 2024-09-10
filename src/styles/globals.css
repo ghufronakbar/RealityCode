@@ -56,6 +56,15 @@ body {
   overflow: visible;
 }
 
+.hide-scroll {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+.hide-scroll::-webkit-scrollbar {
+  display: none;  
+}
+
 
 @layer utilities {
   .text-balance {

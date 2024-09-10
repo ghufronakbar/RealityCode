@@ -2,12 +2,12 @@ export interface Post {
   id: number;
   title: string;
   content: string;
-  images: Image[];
+  images: ImagePost[];
   createdAt: string;
   updatedAt: string;
 }
 
-export interface Image {
+export interface ImagePost {
   id: number;
   url: string;
   createdAt: string;
