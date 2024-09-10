@@ -1,15 +1,31 @@
+import { useToast } from "@/components/ToastNotification";
+import { BackgroundGradient } from "@/components/ui/background-gradient";
+import BottomGradient from "@/components/ui/bottom-gradient";
+import Highlight from "@/components/ui/highlight";
+import { Input } from "@/components/ui/input";
+import { LabelInputContainer } from "@/components/ui/label";
+import { Label } from "@radix-ui/react-label";
 import axios, { AxiosResponse } from "axios";
+import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import React from "react";
+import Cookie from "js-cookie";
+import login from "@/services/auth/login";
+
+interface FormLogin {
+  email: string;
+  password: string;
+}
 
 const Login = () => {
-  const [password, setPassword] = useState<string>("");
-  const [email, setEmail] = useState<string>("");
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [formLogin, setFormLogin] = useState<FormLogin>({
+    email: "",
+    password: "",
+  });
+
   const router = useRouter();
+  const { showToast } = useToast();
 
   interface AxiosError<T = any> extends Error {
     config?: any;
@@ -20,176 +36,82 @@ const Login = () => {
     toJSON: () => object;
   }
 
-  const handleLogin = async () => {
+  const handleLogin = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (formLogin.email == "" || formLogin.password == "") {
+      showToast("All fields are required", "error");
+      return;
+    }
+    showToast("Logging in...", "info");
     try {
-      const response = await axios.post("/api/admin/login", {
-        password,
-        email,
-      });
-      setIsOpen(true);
-      setPassword("");
-      setEmail("");
-      setTimeout(() => {
-        setIsOpen(false);
-        router.push("/admin/dashboard");
-      }, 3000);
+      const response = await login(formLogin.email, formLogin.password);
+      setFormLogin({ email: "", password: "" });
+      showToast("Login successful", "success");
+      Cookie.set("token", response.token.refreshToken, { expires: Number.MAX_VALUE });
+      router.push("/admin/dashboard");
     } catch (error) {
       const axiosError = error as AxiosError;
-      setErrorMessage(axiosError.response?.data?.message);
-      setIsError(true);
-      setTimeout(() => {
-        setIsError(false);
-      }, 3000);
+      showToast(axiosError.response?.data?.message, "error");
       console.log(error);
     }
   };
 
-  const ToastSuccess = () => {
-    return (
-      <div
-        id="toast-default"
-        className={
-          isOpen
-            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 bg-opacity-20 backdrop-blur-lg`
-            : "hidden"
-        }
-        role="alert"
-      >
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8 rounded-lg bg-blue-800 text-blue-200">
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5Zm3.707 8.207-4 4a1 1 0 0 1-1.414 0l-2-2a1 1 0 0 1 1.414-1.414L9 10.586l3.293-3.293a1 1 0 0 1 1.414 1.414Z" />
-          </svg>
-        </div>
-        <div className="ms-3 text-sm font-normal">Login Success</div>
-        <button
-          type="button"
-          className="ms-auto -mx-1.5 -my-1.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
-          data-dismiss-target="#toast-default"
-          aria-label="Close"
-          onClick={() => setIsOpen(false)}
-        >
-          <span className="sr-only">Close</span>
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-        </button>
-      </div>
-    );
-  };
-
-  const ToastError = ({ errorMessage }: { errorMessage: string }) => {
-    return (
-      <div
-        id="toast-default"
-        className={
-          isError
-            ? `flex items-center w-full max-w-xs p-4 rounded-lg shadow text-gray-400 bg-gray-800 fixed z-50  top-12 left-1/2 transform -translate-x-1/2 -translate-y-1/2 transition-all duration-300 bg-opacity-20 backdrop-blur-lg`
-            : "hidden"
-        }
-        role="alert"
-      >
-        <div className="inline-flex items-center justify-center flex-shrink-0 w-8 h-8  rounded-lg bg-orange-700 text-orange-200">
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="currentColor"
-            viewBox="0 0 20 20"
-          >
-            <path d="M10 .5a9.5 9.5 0 1 0 9.5 9.5A9.51 9.51 0 0 0 10 .5ZM10 15a1 1 0 1 1 0-2 1 1 0 0 1 0 2Zm1-4a1 1 0 0 1-2 0V6a1 1 0 0 1 2 0v5Z" />
-          </svg>
-        </div>
-        <div className="ms-3 text-sm font-normal">{errorMessage}</div>
-        <button
-          type="button"
-          className="ms-auto -mx-1.5 -my-1.5  rounded-lg focus:ring-2 focus:ring-gray-300 p-1.5 inline-flex items-center justify-center h-8 w-8 text-gray-500 hover:text-white bg-gray-800 hover:bg-gray-700"
-          data-dismiss-target="#toast-default"
-          aria-label="Close"
-          onClick={() => setIsError(false)}
-        >
-          <span className="sr-only">Close</span>
-          <svg
-            className="w-3 h-3"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 14 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-            />
-          </svg>
-        </button>
-      </div>
-    );
-  };
-
   return (
     <section
-      id="contact"
-      className="bg-abstract-1 min-h-screen bg-cover text-center"
+      id="login"
+      className="h-screen w-full dark:bg-black bg-white  dark:bg-grid-white/[0.2] bg-grid-black/[0.2] relative flex items-center justify-center"
     >
-      <ToastSuccess />
-      <ToastError errorMessage={errorMessage} />
-      <div className=" absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white p-12 rounded-3xl bg-opacity-10 backdrop-blur-lg w-[80vw] md:w-auto ">
-        <h2 className="text-4xl font-bebas text-white mb-8">Login as Admin</h2>
-        <p className="text-lg mb-8">
-          Reality Code is a project created by{" "}
-          <a href="mailto:contact@realitycode.com" className="text-accent">
-            @lanstheprodigy
-          </a>
-        </p>
-        <div className="max-w-lg mx-auto">
-          <div className="mb-4">
-            <input
-              placeholder="Your Email"
-              type="email"
-              className="w-full p-3 rounded-lg bg-secondary text-white"
-              value={email}
-              onChange={(e) => setEmail(e.target.value)}
-            />
-          </div>
-          <div className="mb-4">
-            <input
-              type="password"
-              placeholder="Your Password"
-              className="w-full p-3 rounded-lg bg-secondary text-white"
-              value={password}
-              onChange={(e) => setPassword(e.target.value)}
-            />
-          </div>
-          <button
-            onClick={() => {
-              handleLogin();
-            }}
-            className="bg-accent bg-opacity-30 text-white font-bold py-2 px-4 rounded-full backdrop-blur-lg shadow-xl transform transition-transform duration-300 hover:scale-105 mt-4"
-          >
-            Login
-          </button>
+      {" "}
+      <div className="absolute pointer-events-none inset-0 flex items-center justify-center dark:bg-black bg-white [mask-image:radial-gradient(ellipse_at_center,transparent_20%,black)]"></div>
+      <BackgroundGradient>
+        <div className="max-w-md w-full h-fit mx-auto rounded-3xl p-4 md:p-8 shadow-input bg-white dark:bg-black">
+          <h2 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
+            Login as Admin
+          </h2>
+          <p className="text-sm lg:text-base  max-w-2xl  my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
+            Reality Code is a project created by{" "}
+            <Link href="https://instagram.com/ghufronakbar_">
+              <span>
+                <Highlight>@lanstheprodigy</Highlight>
+              </span>
+            </Link>
+          </p>
+          <form className="my-8 text-start" onSubmit={handleLogin}>
+            <LabelInputContainer className="mb-4">
+              <Label>Email Address</Label>
+              <Input
+                placeholder="Input your email address"
+                type="email"
+                value={formLogin.email}
+                onChange={(e) =>
+                  setFormLogin({ ...formLogin, email: e.target.value })
+                }
+              />
+            </LabelInputContainer>
+            <LabelInputContainer className="mb-8">
+              <Label>Password</Label>
+              <Input
+                placeholder="Input your password"
+                type="password"
+                value={formLogin.password}
+                onChange={(e) =>
+                  setFormLogin({ ...formLogin, password: e.target.value })
+                }
+              />
+            </LabelInputContainer>
+
+            <button
+              className="bg-gradient-to-br relative group/btn from-black dark:from-zinc-900 dark:to-zinc-900 to-neutral-600 block dark:bg-zinc-800 w-full text-white rounded-md h-10 font-medium shadow-[0px_1px_0px_0px_#ffffff40_inset,0px_-1px_0px_0px_#ffffff40_inset] dark:shadow-[0px_1px_0px_0px_var(--zinc-800)_inset,0px_-1px_0px_0px_var(--zinc-800)_inset]"
+              type="submit"
+            >
+              Login &rarr;
+              <BottomGradient />
+            </button>
+
+            <div className="bg-gradient-to-r from-transparent via-neutral-300 dark:via-neutral-700 to-transparent my-8 h-[1px] w-full" />
+          </form>
         </div>
-      </div>
+      </BackgroundGradient>
     </section>
   );
 };
