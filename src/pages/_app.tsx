@@ -2,6 +2,7 @@ import "@/styles/globals.css";
 import type { AppProps } from "next/app";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Head from "next/head";
+import { ToastProvider } from "@/components/ToastNotification";
 const queryClient = new QueryClient();
 
 export default function App({ Component, pageProps }: AppProps) {
@@ -16,10 +17,11 @@ export default function App({ Component, pageProps }: AppProps) {
         <meta name="theme-color" content="#ffffff" />
         <meta name="robots" content="index, follow" />
         <meta name="googlebot" content="index, follow" />
-        <meta name="google" content="notranslate" />        
+        <meta name="google" content="notranslate" />
       </Head>
-      
-      <Component {...pageProps} />
+      <ToastProvider>
+        <Component {...pageProps} />
+      </ToastProvider>
     </QueryClientProvider>
-  )  
+  );
 }

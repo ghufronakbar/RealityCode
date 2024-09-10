@@ -6,9 +6,10 @@ import { TextArea } from "../ui/text-area";
 import Link from "next/link";
 import { FileUpload } from "../ui/file-upload";
 import BottomGradient from "../ui/bottom-gradient";
-import ToastNotification from "../ToastNotification";
-import sendMessage from "@/services/user/sendMessage";
+import sendMessage from "@/services/message/sendMessage";
 import Highlight from "../ui/highlight";
+import { useToast } from "../ToastNotification";
+import { ResponseFailure } from "@/models/Response";
 
 interface FormContact {
   name: string;
@@ -24,9 +25,7 @@ const ContactSection = () => {
     message: "",
   });
 
-  const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [isRequired, setIsRequired] = useState<boolean>(false);
-  const [isError, setIsError] = useState<boolean>(false);
+  const { showToast } = useToast();
 
   const handleFileUpload = (files: File) => {
     setFormContact({ ...formContact, file: files });
@@ -39,54 +38,33 @@ const ContactSection = () => {
       formContact.email == "" ||
       formContact.message == ""
     ) {
-      setIsRequired(true);
-      setTimeout(() => {
-        setIsRequired(false);
-      }, 3000);
+      showToast("Please fill in all required fields", "error");
       return;
     }
-    setFormContact({
-      name: "",
-      email: "",
-      message: "",
-      file: undefined,
-    });
-    setIsOpen(true);
     try {
+      showToast("Sending message...", "info");
       const response = await sendMessage(
         formContact.name,
         formContact.email,
         formContact.message,
         formContact.file
       );
-      setTimeout(() => {
-        setIsOpen(false);
-      }, 3000);
+      showToast(response.message, "success");
+      setFormContact({
+        name: "",
+        email: "",
+        message: "",
+        file: undefined,
+      });
     } catch (error) {
       console.log(error);
+      const err = error as ResponseFailure;
+      showToast(err.response.data.message, "error");
     }
   };
 
   return (
     <section id="contact" className="py-40 px-6 text-center">
-      <ToastNotification
-        status="success"
-        message="Your message has been sent."
-        isVisible={isOpen}
-        onClose={() => setIsOpen(false)}
-      />
-      <ToastNotification
-        status="error"
-        message="Please fill the form."
-        isVisible={isRequired}
-        onClose={() => setIsRequired(false)}
-      />
-      <ToastNotification
-        status="error"
-        message="An error occurred. Please try again later."
-        isVisible={isError}
-        onClose={() => setIsError(false)}
-      />
       <div className="container mx-auto">
         <h2 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl mx-auto text-center tracking-tight font-medium text-black dark:text-white">
           Contact Us
