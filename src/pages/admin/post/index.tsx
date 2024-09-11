@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Sidebar from "@/components/Sidebar";
 import { useQuery } from "@tanstack/react-query";
 import { useToast } from "@/components/ToastNotification";
@@ -22,14 +22,19 @@ import ModalConfirmation from "@/components/ModalConfirmation";
 import deletePost from "@/services/post/deletePost";
 import formatString from "@/utils/format/formatString";
 import addPostImage from "@/services/post/addPostImage";
+import { Limitation } from "@/models/Limitation";
 
 const PostPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
-  const [limit, setLimit] = useState<number>(7);
+  const [limit, setLimit] = useState<number>(10);
   const [selected, setSelected] = useState<{ id: number; image: string }>({
     id: 0,
     image: "/",
+  });
+  const [limitation, setLimitation] = useState<Limitation>({
+    currentData: 0,
+    totalData: 0,
   });
   const [formPost, setFormPost] = useState<FormPost>({
     title: "",
@@ -42,6 +47,11 @@ const PostPage: React.FC = () => {
     queryFn: () => getAllPost(limit, ""),
     refetchOnWindowFocus: false,
   });
+  useEffect(() => {
+    if (data) {
+      setLimitation(data.limitation);
+    }
+  }, [data]);
   const handleFileUpload = (files: File[]) => {
     setFormPost({
       ...formPost,
@@ -135,6 +145,12 @@ const PostPage: React.FC = () => {
     }
   };
 
+  const handleLoadMore = () => {
+    if(limitation.currentData < limitation.totalData) {
+      setLimit(limit + 3);
+    }
+  }
+
   return (
     <Sidebar>
       <LayoutDashboard
@@ -143,7 +159,7 @@ const PostPage: React.FC = () => {
           <Button onClick={() => setIsOpen(true)}>Add Post</Button>
         }
       >
-        {isLoading || (isFetching && <DashboardLoading />)}
+        {isLoading || isFetching && <DashboardLoading />}
         {!isLoading && !isFetching && data && (
           <div className="relative overflow-x-auto hide-scroll rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -223,6 +239,11 @@ const PostPage: React.FC = () => {
                 ))}
               </tbody>
             </table>
+          </div>
+        )}
+        {data && limitation.currentData < limitation.totalData && (
+          <div className="self-end mt-4">
+            <Button onClick={handleLoadMore}>Load More</Button>
           </div>
         )}
       </LayoutDashboard>
