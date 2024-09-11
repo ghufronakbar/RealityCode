@@ -21,6 +21,7 @@ import editPost from "@/services/post/editPost";
 import ModalConfirmation from "@/components/ModalConfirmation";
 import deletePost from "@/services/post/deletePost";
 import formatString from "@/utils/format/formatString";
+import addPostImage from "@/services/post/addPostImage";
 
 const PostPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -38,7 +39,7 @@ const PostPage: React.FC = () => {
   const { showToast } = useToast();
   const { data, isLoading, isFetching, refetch } = useQuery({
     queryKey: ["admin/post", limit],
-    queryFn: () => getAllPost(limit),
+    queryFn: () => getAllPost(limit, ""),
     refetchOnWindowFocus: false,
   });
   const handleFileUpload = (files: File[]) => {
@@ -88,6 +89,19 @@ const PostPage: React.FC = () => {
     showToast("Editing post...", "info");
     try {
       const res = await editPost(selected.id, formPost);
+      if (selected.id !== 0 && formPost.images.length > 0) {
+        try {
+          const response = await addPostImage(selected.id, formPost.images);
+          showToast(response.message || "Success add images", "success");
+        } catch (error) {
+          console.log(error);
+          const err = error as ResponseFailure;
+          showToast(
+            err?.response?.data?.message || "Something went wrong",
+            "error"
+          );
+        }
+      }
       showToast(res.message, "success");
       refetch();
       setSelected({ id: 0, image: "/" });
@@ -259,12 +273,10 @@ const PostPage: React.FC = () => {
             />
           </LabelInputContainer>
 
-          {selected.id == 0 && (
-            <LabelInputContainer className="mb-4">
-              <Label>Content</Label>
-              <FileUploadMulti onChange={handleFileUpload} />
-            </LabelInputContainer>
-          )}
+          <LabelInputContainer className="mb-4">
+            <Label>Content</Label>
+            <FileUploadMulti onChange={handleFileUpload} />
+          </LabelInputContainer>
 
           <div className="mb-4"></div>
           <button

@@ -1,20 +1,15 @@
 import axiosInstance from "@/config/axios";
-import { Limitation } from "@/models/Limitation";
 import { Post } from "@/models/Post";
 import { ResponseSuccess } from "@/models/Response";
 
 interface PostSuccess extends ResponseSuccess {
   data: Post[];
-  limitation: Limitation;
 }
 
-const getAllPost = async (
-  limit: number,
-  search: string
-): Promise<PostSuccess> => {
+const getFavoritedPost = async (objectOfIds: string): Promise<PostSuccess> => {
   try {
-    const response = await axiosInstance.get("/post", {
-      params: { limit, search },
+    const response = await axiosInstance.get("/post/favorited", {
+      params: { favorited: objectOfIds },
     });
     return response.data;
   } catch (error) {
@@ -22,4 +17,4 @@ const getAllPost = async (
   }
 };
 
-export default getAllPost;
+export default getFavoritedPost;

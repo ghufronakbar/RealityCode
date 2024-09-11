@@ -21,6 +21,7 @@ const formatContent = ({
                 href={`/post?search=${encodeURIComponent(cleanWord)}`}
                 prefetch={false}
                 onClick={onClick}
+                className="text-blue-500 hover:underline"
               >
                 <span className="text-blue-500 hover:underline">{word}</span>
               </Link>
