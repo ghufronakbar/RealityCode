@@ -6,6 +6,7 @@ import { useEffect, useRef } from "react";
 import { motion } from "framer-motion";
 import { IconBrandTiktokFilled } from "@tabler/icons-react";
 import Link from "next/link";
+import { CustomButton } from "./HeroSection";
 
 export default function FeaturesSectionDemo() {
   return (
@@ -21,6 +22,9 @@ export default function FeaturesSectionDemo() {
           From basic learning for beginners without even basic technology at all
           to amateurs and professionals looking for a reference.
         </p>
+        <div className="w-full flex flex-col items-center justify-center">
+          <CustomButton href="/post">See Our Lessons</CustomButton>
+        </div>
       </div>
 
       <div className="relative ">
