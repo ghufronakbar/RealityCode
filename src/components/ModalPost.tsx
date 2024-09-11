@@ -6,7 +6,7 @@ import Image from "next/image";
 import { IoIosArrowBack, IoIosArrowForward } from "react-icons/io";
 import { GoBookmark, GoBookmarkFill } from "react-icons/go";
 import formatDate from "@/utils/format/formatDate";
-
+import formatContent from "@/utils/format/formatContent";
 interface ModalPostProps {
   isOpen: boolean;
   onClose: () => void;
@@ -83,12 +83,9 @@ const ModalPost = ({ isOpen, onClose, post }: ModalPostProps) => {
               <GoBookmark className="w-6 h-6" />
             )}
           </span>
-          <p
-            className="text-xs lg:text-sm my-4  font-normal "
-            dangerouslySetInnerHTML={{
-              __html: post.content.replace(/\n/g, "<br />"),
-            }}
-          ></p>
+          <p className="text-xs lg:text-sm my-4  font-normal ">
+            {formatContent({ content: post.content, onClick: onClose })}
+          </p>
           <p className="text-xs text-neutral-500 dark:text-neutral-300">
             Posted on {formatDate(post.createdAt)}
           </p>

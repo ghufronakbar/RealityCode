@@ -49,7 +49,21 @@ const config: Config = {
         archivo: ["Archivo", "sans-serif"],
       },
     },
+    animation: {
+      shimmer: "shimmer 2s linear infinite",
+    },
+    keyframes: {
+      shimmer: {
+        from: {
+          backgroundPosition: "0 0",
+        },
+        to: {
+          backgroundPosition: "-200% 0",
+        },
+      },
+    },
   },
+
   plugins: [
     require("@tailwindcss/aspect-ratio"),
     addVariablesForColors,
@@ -107,7 +121,7 @@ function addVariablesForColors2({ addBase, theme }: any) {
   let newVars = Object.fromEntries(
     Object.entries(allColors).map(([key, val]) => [`--${key}`, val])
   );
- 
+
   addBase({
     ":root": newVars,
   });
