@@ -6,19 +6,15 @@
     "dev": "next dev",
     "build": "npm run build:next",
     "start": "next start",
-    "build:next": "next build",    
+    "build:next": "next build",
     "lint": "next lint"
-  },
-  "prisma": {
-    "seed": "node prisma/seed.ts"
-  },
-  "dependencies": {
-    "@prisma/client": "^5.19.1",
+  },  
+  "dependencies": {    
     "@radix-ui/react-label": "^2.1.0",
     "@tabler/icons-react": "^3.15.0",
     "@tailwindcss/aspect-ratio": "^0.4.2",
     "@tanstack/react-query": "^5.51.11",
-    "axios": "^1.7.2",
+    "axios": "^1.7.7",
     "bcrypt": "^5.1.1",
     "clsx": "^2.1.1",
     "cobe": "^0.6.3",
@@ -29,7 +25,6 @@
     "mini-svg-data-uri": "^1.4.4",
     "next": "14.2.5",
     "next-connect": "^1.0.0-next.4",
-    "prisma": "^5.19.1",
     "react": "^18",
     "react-dom": "^18",
     "react-dropzone": "^14.2.3",

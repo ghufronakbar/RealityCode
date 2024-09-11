@@ -5,7 +5,6 @@ import Highlight from "@/components/ui/highlight";
 import { Input } from "@/components/ui/input";
 import { LabelInputContainer } from "@/components/ui/label";
 import { Label } from "@radix-ui/react-label";
-import axios, { AxiosResponse } from "axios";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { useState } from "react";
@@ -13,6 +12,7 @@ import React from "react";
 import Cookies from "js-cookie";
 import login from "@/services/auth/login";
 import { COOKIES_KEY } from "@/constants/key";
+import { ResponseFailure } from "@/models/Response";
 
 interface FormLogin {
   email: string;
@@ -28,15 +28,6 @@ const Login = () => {
   const router = useRouter();
   const { showToast } = useToast();
 
-  interface AxiosError<T = any> extends Error {
-    config?: any;
-    code?: string;
-    request?: any;
-    response?: AxiosResponse<T>;
-    isAxiosError: boolean;
-    toJSON: () => object;
-  }
-
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formLogin.email == "" || formLogin.password == "") {
@@ -51,8 +42,8 @@ const Login = () => {
       Cookies.set(COOKIES_KEY, response.token.refreshToken, { expires: Number.MAX_VALUE });
       router.push("/admin/dashboard");
     } catch (error) {
-      const axiosError = error as AxiosError;
-      showToast(axiosError.response?.data?.message, "error");
+      const err = error as ResponseFailure;
+      showToast(err.response?.data?.message || "Something went wrong", "error");
       console.log(error);
     }
   };
