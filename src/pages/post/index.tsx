@@ -13,6 +13,7 @@ import formatContent from "@/utils/format/formatContent";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { useRouter } from "next/router";
 import useDebounce from "@/utils/useDebounce";
+import CountSocial from "@/components/CountSocial";
 
 const PostPage = () => {
   const router = useRouter();
@@ -131,14 +132,15 @@ const PostPage = () => {
   return (
     <div className="flex h-screen flex-col lg:flex-row bg-white dark:bg-black px-1 sm:px-4 md:px-8 lg:px-14">
       <div className="flex flex-col w-full lg:w-1/3 h-full py-12 px-8">
-        <h1 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl tracking-tight font-medium text-black dark:text-white">
+        <h1 className="text-4xl lg:text-5xl lg:leading-tight max-w-5xl tracking-tight font-medium text-black dark:text-white">
           Reality Code
         </h1>
+        <CountSocial />
         <p className="text-xs lg:text-sm my-4 text-neutral-500 font-normal dark:text-neutral-300">
           {formatContent({ content: description })}
         </p>
         <div className="flex flex-col gap-2 w-full">
-          <h4 className="text-sm mt-8">Follow Us:</h4>
+          <h4 className="text-sm">Follow Us:</h4>
           <div className="flex flex-col gap-2">
             {socialMedias.map((social, index) => (
               <Link
@@ -167,8 +169,12 @@ const PostPage = () => {
           />
         </div>
         <div className="text-xs lg:text-sm max-w-2xl mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300 mt-8">
-            See your saved posts <Link href="/post/saved" prefetch={false} className="text-blue-500"> here </Link>
-          </div>
+          See your saved posts{" "}
+          <Link href="/post/saved" prefetch={false} className="text-blue-500">
+            {" "}
+            here{" "}
+          </Link>
+        </div>
         <div className="hidden lg:block w-full mt-2">
           <Footer />
         </div>
@@ -196,11 +202,17 @@ const PostPage = () => {
             ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
         </div>
-        {!isLoading && !isFetching && data && data.data.length === 0 && !isError && search !== "" && (
-          <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-            No posts found with keyword <span className="font-semibold">&quot;{search}&quot;</span>
-          </div>
-        )}
+        {!isLoading &&
+          !isFetching &&
+          data &&
+          data.data.length === 0 &&
+          !isError &&
+          search !== "" && (
+            <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
+              No posts found with keyword{" "}
+              <span className="font-semibold">&quot;{search}&quot;</span>
+            </div>
+          )}
         {isError && <div className="text-red-500">Error loading posts</div>}
         <div className="lg:hidden block w-full mt-4">
           <Footer />
@@ -220,5 +232,6 @@ const PostPage = () => {
     </div>
   );
 };
+
 
 export default PostPage;
