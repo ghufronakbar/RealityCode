@@ -11,6 +11,7 @@ import Image from "next/image";
 import Button from "@/components/Button";
 import { IoMdRefresh } from "react-icons/io";
 import getOverviewWithoutCache from "@/services/overview/getOverviewWithoutCache";
+import withAuth from "@/utils/withAuth";
 
 interface DataSocial {
   instagram: number;
@@ -157,7 +158,7 @@ const DashboardPage: React.FC = () => {
   const handleRefresh = async () => {
     showToast("Refreshing...", "info");
     const res = await getOverviewWithoutCache();
-    showToast("Refreshed", "success");    
+    showToast("Refreshed", "success");
     const newSocialData = {
       instagram: res.data.instagram.followers,
       tiktok: res.data.tiktok.followers,
@@ -166,16 +167,16 @@ const DashboardPage: React.FC = () => {
       posts: res.data.tiktok.post,
     };
     setDataSocial(newSocialData);
-    setDisplaySocial(initData);    
+    setDisplaySocial(initData);
     setTimeout(() => {
       Object.keys(newSocialData).forEach((key) => {
         const typedKey = key as keyof typeof displaySocial;
         animateCounting(newSocialData[typedKey], typedKey);
       });
-    }, 100); 
+    }, 100);
   };
 
-  useEffect(() => {    
+  useEffect(() => {
     if (
       Object.values(displaySocial).every((value) => value === 0) &&
       dataSocial.instagram > 0
@@ -213,4 +214,4 @@ const DashboardPage: React.FC = () => {
   );
 };
 
-export default DashboardPage;
+export default withAuth(DashboardPage);

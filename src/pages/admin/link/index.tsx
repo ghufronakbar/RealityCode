@@ -21,6 +21,7 @@ import addLink, { FormLink } from "@/services/link/addLink";
 import editLink from "@/services/link/editLink";
 import deleteLink from "@/services/link/deleteLink";
 import ICON_ITEMS from "@/data/iconItems";
+import withAuth from "@/utils/withAuth";
 
 const LinkPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -255,7 +256,7 @@ const LinkPage: React.FC = () => {
            disabled:cursor-not-allowed disabled:opacity-50
            dark:shadow-[0px_0px_1px_1px_var(--neutral-700)]
            group-hover/input:shadow-none transition duration-400"
-            value={formLink.icon}
+              value={formLink.icon}
               onChange={(e) =>
                 setFormLink({ ...formLink, icon: e.target.value })
               }
@@ -306,4 +307,4 @@ const LinkPage: React.FC = () => {
   );
 };
 
-export default LinkPage;
+export default withAuth(LinkPage);

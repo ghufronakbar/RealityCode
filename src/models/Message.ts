@@ -1,9 +1,9 @@
 export interface Message {
-  id: string;
+  id: number;
   name: string;
   email: string;
   message: string;
-  file: string;
+  file?: string;
   createdAt: string;
   updatedAt: string;
 }

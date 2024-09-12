@@ -4,21 +4,24 @@ import { Sidebar, SidebarBody, SidebarLink } from "@/components/ui/sidebar";
 import {
   IconArrowLeft,
   IconBrandTabler,
-  IconSettings,
-  
+  IconMessage,
 } from "@tabler/icons-react";
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
 import { BsFillFilePostFill } from "react-icons/bs";
 import { GoLink } from "react-icons/go";
-
+import { COOKIES_KEY } from "@/constants/key";
+import Cookies from "js-cookie";
+import { useToast } from "@/components/ToastNotification";
+import { RiBookMarkedLine } from "react-icons/ri";
 
 export default function SidebarDemo({
   children,
 }: {
   children: React.ReactNode;
 }) {
+  const { showToast } = useToast();
   const links = [
     {
       label: "Dashboard",
@@ -28,17 +31,24 @@ export default function SidebarDemo({
       ),
     },
     {
-      label: "Posts",
+      label: "Post",
       href: "/admin/post",
       icon: (
-        <BsFillFilePostFill className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+        <RiBookMarkedLine className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
-      label: "Links",
+      label: "Link",
       href: "/admin/link",
       icon: (
         <GoLink className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Message",
+      href: "/admin/message",
+      icon: (
+        <IconMessage className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -50,6 +60,12 @@ export default function SidebarDemo({
     },
   ];
   const [open, setOpen] = useState<boolean>(false);
+
+  const handleLogout = () => {
+    console.log("Logout");
+    Cookies.remove(COOKIES_KEY);
+    showToast("Logout successfully", "success");
+  };
   return (
     <div className="rounded-md flex flex-col md:flex-row bg-gray-100 dark:bg-neutral-800 w-full flex-1 mx-auto border border-neutral-200 dark:border-neutral-700 overflow-hidden h-screen">
       <Sidebar open={open} setOpen={setOpen}>
@@ -58,7 +74,13 @@ export default function SidebarDemo({
             {open ? <Logo /> : <LogoIcon />}
             <div className="mt-8 flex flex-col gap-2">
               {links.map((link, idx) => (
-                <SidebarLink key={idx} link={link} />
+                <SidebarLink
+                  key={idx}
+                  link={link}
+                  onClick={
+                    link.href === "/" ? () => handleLogout() : () => null
+                  }
+                />
               ))}
             </div>
           </div>
@@ -113,4 +135,3 @@ export const LogoIcon = () => {
     </Link>
   );
 };
-

@@ -1,43 +1,49 @@
 import React, { useEffect, useState } from "react";
 import { useRouter } from "next/router";
-import axios from "axios";
+import DashboardLoading from "@/components/loading/DashboardLoading";
+import { COOKIES_KEY } from "@/constants/key";
+import Cookies from "js-cookie";
+import checkAuth from "@/services/auth/checkAuth";
+import { useToast } from "@/components/ToastNotification";
+import { Sidebar } from "@/components/ui/sidebar";
+import LayoutDashboard from "@/components/LayoutDashboard";
 
 const withAuth = (WrappedComponent: React.ComponentType) => {
   const Wrapper = (props: any) => {
+    const { showToast } = useToast();
     const router = useRouter();
-    const [isAuthenticated, setIsAuthenticated] = useState(false);
     const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-      const checkAuth = async () => {
-        try {
-          const response = await axios.get("/api/checkAuth", {
-            withCredentials: true,
-          });
-
-          if (response.status === 200) {
-            setIsAuthenticated(true);
-          } else {
-            router.replace("/admin/login");
-          }
-        } catch (error) {
-          router.replace("/admin/login");
-        } finally {
-          setLoading(false);
+      const token = Cookies.get(COOKIES_KEY);
+      if (router.isReady) {
+        if (token) {
+          const handleAuth = async () => {
+            try {
+              const response = await checkAuth(token);
+              setLoading(false);
+            } catch (error) {
+              showToast("Unauthorized", "error");
+              router.push("/admin/login");
+            }
+          };
+          handleAuth();
+        } else {
+          showToast("Unauthorized", "error");
+          router.push("/admin/login");
         }
-      };
-
-      checkAuth();
-    }, []);
+      }
+    }, [router]);
 
     if (loading) {
-      return <div>Loading...</div>;
+      return (
+        <Sidebar>
+          <LayoutDashboard title="Loading">
+            <DashboardLoading />
+          </LayoutDashboard>
+        </Sidebar>
+      );
     }
-
-    if (!isAuthenticated) {
-      return null;
-    }
-
     return <WrappedComponent {...props} />;
   };
 

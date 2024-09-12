@@ -23,6 +23,7 @@ import deletePost from "@/services/post/deletePost";
 import formatString from "@/utils/format/formatString";
 import addPostImage from "@/services/post/addPostImage";
 import { Limitation } from "@/models/Limitation";
+import withAuth from "@/utils/withAuth";
 
 const PostPage: React.FC = () => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -146,10 +147,10 @@ const PostPage: React.FC = () => {
   };
 
   const handleLoadMore = () => {
-    if(limitation.currentData < limitation.totalData) {
+    if (limitation.currentData < limitation.totalData) {
       setLimit(limit + 3);
     }
-  }
+  };
 
   return (
     <Sidebar>
@@ -159,7 +160,7 @@ const PostPage: React.FC = () => {
           <Button onClick={() => setIsOpen(true)}>Add Post</Button>
         }
       >
-        {isLoading || isFetching && <DashboardLoading />}
+        {isLoading || (isFetching && <DashboardLoading />)}
         {!isLoading && !isFetching && data && (
           <div className="relative overflow-x-auto hide-scroll rounded-lg">
             <table className="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
@@ -325,4 +326,4 @@ const PostPage: React.FC = () => {
   );
 };
 
-export default PostPage;
+export default withAuth(PostPage);
