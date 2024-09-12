@@ -20,6 +20,7 @@ import getMessage from "@/services/message/getMessage";
 import deleteMessage from "@/services/message/deleteMessage";
 import withAuth from "@/utils/withAuth";
 import { Message } from "@/models/Message";
+import replyMessage from "@/services/message/replyMessage";
 
 const initState: Message = {
   id: 0,
@@ -50,7 +51,6 @@ const MessagePage: React.FC = () => {
       const res = await deleteMessage(selectedId);
       showToast(res.message || "Message deleted successfully", "success");
       refetch();
-      setIsOpen(false);
     } catch (error) {
       console.log(error);
       const err = error as ResponseFailure;
@@ -58,6 +58,23 @@ const MessagePage: React.FC = () => {
     } finally {
       setSelectedId(0);
       setIsConfirm(false);
+    }
+  };
+
+  const handleReply = async (e: React.FormEvent) => {
+    e.preventDefault();
+    showToast("Replying message...", "info");
+    try {
+      const res = await replyMessage(message.email, message.name, reply);
+      showToast(res.message || "Message replied successfully", "success");
+    } catch (error) {
+      console.log(error);
+      const err = error as ResponseFailure;
+      showToast(err.response.data.message || "Something went wrong", "error");
+    } finally {
+      setMessage(initState);
+      setReply("");
+      setIsOpen(false);
     }
   };
 
@@ -139,7 +156,7 @@ const MessagePage: React.FC = () => {
         }}
         title="Reply Message"
       >
-        <form className="my-8 text-start" onSubmit={() => {}}>
+        <form className="my-8 text-start" onSubmit={handleReply}>
           {message.file && (
             <div className="w-full p-8">
               <Image
@@ -171,7 +188,7 @@ const MessagePage: React.FC = () => {
           <LabelInputContainer className="mb-4">
             <Label>Reply</Label>
             <TextArea
-              value={reply}              
+              value={reply}
               onChange={(e) => setReply(e.target.value)}
               className="hide-scroll"
               rows={10}

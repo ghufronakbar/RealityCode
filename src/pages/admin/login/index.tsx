@@ -27,6 +27,8 @@ const Login = () => {
 
   const router = useRouter();
   const { showToast } = useToast();
+  const redirect = router.query.redirect as string || "/admin/dashboard";
+  const isValidRedirect = redirect.includes("/admin");
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,7 +42,7 @@ const Login = () => {
       setFormLogin({ email: "", password: "" });
       showToast("Login successful", "success");
       Cookies.set(COOKIES_KEY, response.token.refreshToken, { expires: Number.MAX_VALUE });
-      router.push("/admin/dashboard");
+      router.push(isValidRedirect ? redirect : "/admin/dashboard");
     } catch (error) {
       const err = error as ResponseFailure;
       showToast(err.response?.data?.message || "Something went wrong", "error");

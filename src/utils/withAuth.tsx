@@ -24,13 +24,13 @@ const withAuth = (WrappedComponent: React.ComponentType) => {
               setLoading(false);
             } catch (error) {
               showToast("Unauthorized", "error");
-              router.push("/admin/login");
+              router.push(`/admin/login?redirect=${router.asPath}`);
             }
           };
           handleAuth();
         } else {
           showToast("Unauthorized", "error");
-          router.push("/admin/login");
+          router.push(`/admin/login?redirect=${router.asPath}`);
         }
       }
     }, [router]);
