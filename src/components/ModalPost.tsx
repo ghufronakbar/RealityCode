@@ -11,10 +11,11 @@ interface ModalPostProps {
   isOpen: boolean;
   onClose: () => void;
   post: Post;
+  onBookmark?: () => void;
   onUnBookmark?: () => void;
 }
 
-const ModalPost = ({ isOpen, onClose, post, onUnBookmark }: ModalPostProps) => {
+const ModalPost = ({ isOpen, onClose, post, onBookmark, onUnBookmark }: ModalPostProps) => {
   const [indexImage, setIndexImage] = useState<number>(0);
   const { showToast } = useToast();
   const isAvailNext: boolean =
@@ -81,7 +82,7 @@ const ModalPost = ({ isOpen, onClose, post, onUnBookmark }: ModalPostProps) => {
             {isBoorkmarked ? (
               <GoBookmarkFill className="w-6 h-6" onClick={onUnBookmark} />
             ) : (
-              <GoBookmark className="w-6 h-6" />
+              <GoBookmark className="w-6 h-6" onClick={onBookmark} />
             )}
           </span>
           <p className="text-xs lg:text-sm my-4  font-normal ">

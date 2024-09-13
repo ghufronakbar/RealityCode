@@ -5,17 +5,24 @@ import { Post } from "@/models/Post";
 import { Card, LoadingCard } from "@/components/ui/focus-card";
 import Footer from "@/components/Footer";
 import ModalPost from "@/components/ModalPost";
-import { keepPreviousData, useQuery } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { useRouter } from "next/router";
 import getFavoritedPost from "@/services/post/getFavoritedPost";
 import getKeyFavoritedPost from "@/services/post/getKeyFavoritedPost";
+import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 
 const SavedPostPage = () => {
+  const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hovered, setHovered] = useState<number | null>(null);
   const [post, setPost] = useState<Post | null>(null);
   const [keyFav, setKeyFav] = useState<string>("[]");
-  const router = useRouter();
+  const [search, setSearch] = useState<string>(
+    (router.query.search as string) || ""
+  );
+  const [tempDelete, setTempDelete] = useState<Post[]>([]);
+
+  const [filteredData, setFilteredData] = useState<Post[]>([]);
 
   useEffect(() => {
     if (router.isReady) {
@@ -28,16 +35,39 @@ const SavedPostPage = () => {
     queryKey: ["posts/favorited/", keyFav],
     queryFn: () => getFavoritedPost(keyFav),
     refetchOnWindowFocus: false,
-    placeholderData: keepPreviousData,
   });
 
   const handleUnBookmark = (id: number) => {
-    if (data) {
-      const findUnBook = data?.data?.find((post) => post.id === id);
-      if (findUnBook) {
-        data?.data?.splice(data?.data?.indexOf(findUnBook), 1);
-      }
+    const findUnBook = filteredData.find((post) => post.id === id);
+    if (findUnBook) {
+      setTempDelete([...tempDelete, findUnBook]);
+      const newData = filteredData.filter((post) => post.id !== id);
+      setFilteredData(newData);
     }
+  };
+
+  const handleBookmark = (id: number) => {
+    const findBook = tempDelete.find((post) => post.id === id);
+    if (findBook) {
+      setFilteredData([...filteredData, findBook]);
+      setTempDelete([...tempDelete.filter((post) => post.id !== id)]);
+    }
+  };
+
+  useEffect(() => {
+    if (data) {
+      setFilteredData(
+        data.data.filter((post) => post.title.toLowerCase().includes(search))
+      );
+    }
+  }, [data, search]);
+
+  const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearch(e.target.value);
+    router.push({
+      pathname: router.pathname,
+      query: { search: e.target.value },
+    });
   };
 
   return (
@@ -66,7 +96,19 @@ const SavedPostPage = () => {
             ))}
           </div>
         </div>
-        <div className="text-xs lg:text-sm max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300 mt-12">
+        <div className="w-full mt-8">
+          <PlaceholdersAndVanishInput
+            placeholders={[
+              "Search Here",
+              "LearnWithReality",
+              "JavaScript",
+              "Rest API",
+            ]}
+            onChange={handleSearch}
+            onSubmit={() => {}}
+          />
+        </div>
+        <div className="text-xs lg:text-sm max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300 mt-8">
           See all posts{" "}
           <Link href="/post" prefetch={false} className="text-blue-500">
             {" "}
@@ -78,23 +120,21 @@ const SavedPostPage = () => {
         </div>
       </div>
 
-      <div className="flex flex-col w-full lg:w-2/3 items-center py-12 h-full lg:overflow-auto hide-scroll">
-        <div className="w-full grid grid-cols-3 gap-4">
-          {data &&
-            !isError &&
-            data.data.map((item, index) => (
-              <Card
-                key={index}
-                card={item}
-                index={index}
-                hovered={hovered}
-                setHovered={setHovered}
-                onClick={() => {
-                  setIsOpen(true);
-                  setPost(item);
-                }}
-              />
-            ))}
+      <div className="flex flex-col w-full lg:w-2/3 items-center lg:py-12 h-full lg:overflow-auto hide-scroll">
+        <div className="w-full grid grid-cols-3 gap-1 md-gap-2 lg:gap-4">
+          {filteredData.map((item, index) => (
+            <Card
+              key={index}
+              card={item}
+              index={index}
+              hovered={hovered}
+              setHovered={setHovered}
+              onClick={() => {
+                setIsOpen(true);
+                setPost(item);
+              }}
+            />
+          ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
         </div>
         {!isLoading &&
@@ -118,8 +158,10 @@ const SavedPostPage = () => {
           onClose={() => {
             setIsOpen(false);
             setPost(null);
+            setTempDelete([]);
           }}
           onUnBookmark={() => handleUnBookmark(post.id)}
+          onBookmark={() => handleBookmark(post.id)}
           post={post}
         />
       )}
