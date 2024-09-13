@@ -136,12 +136,7 @@ const SavedPostPage = () => {
               />
             ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
-        </div>
-        {!isLoading && !isFetching && filteredData.length === 0 && !isError && (
-          <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-            No favorited posts found
-          </div>
-        )}
+        </div>        
         {!isLoading &&
           !isFetching &&
           filteredData.filter((post) =>
@@ -150,10 +145,12 @@ const SavedPostPage = () => {
           !isError && (
             <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
               No favorited posts found{" "}
-              <span>
-                with keyword{" "}
-                <span className="font-semibold">&quot;{search}&quot;</span>
-              </span>
+              {search !== "" && (
+                <span>
+                  with keyword{" "}
+                  <span className="font-semibold">&quot;{search}&quot;</span>
+                </span>
+              )}
             </div>
           )}
         {isError && <div className="text-red-500">Error loading posts</div>}
