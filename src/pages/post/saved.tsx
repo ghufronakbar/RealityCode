@@ -69,7 +69,7 @@ const SavedPostPage = () => {
   };
 
   return (
-    <div className="flex h-screen flex-col lg:flex-row bg-white dark:bg-black px-4 sm:px-10 md:px-12 lg:px-14">
+    <div className="flex h-screen flex-col lg:flex-row bg-white dark:bg-black px-1 sm:px-4 md:px-8 lg:px-14">
       <div className="flex flex-col w-full lg:w-1/3 h-full py-12 px-8">
         <h1 className="text-3xl lg:text-5xl lg:leading-tight max-w-5xl tracking-tight font-medium text-black dark:text-white">
           Saved Post
