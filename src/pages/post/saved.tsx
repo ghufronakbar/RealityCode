@@ -55,10 +55,12 @@ const SavedPostPage = () => {
   };
 
   useEffect(() => {
-    setFilteredData((prev) =>
-      prev.filter((post) => post.title.toLowerCase().includes(search))
-    );
-  }, [data, search]);
+    if (data) {
+      setFilteredData(data.data);
+    }
+  }, [data]);
+
+
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
@@ -120,7 +122,7 @@ const SavedPostPage = () => {
 
       <div className="flex flex-col w-full lg:w-2/3 items-center lg:py-12 h-full lg:overflow-auto hide-scroll">
         <div className="w-full grid grid-cols-3 gap-1 md-gap-2 lg:gap-4">
-          {filteredData.map((item, index) => (
+          {filteredData.filter((post) => post.title.toLowerCase().includes(search)).map((item, index) => (
             <Card
               key={index}
               card={item}
