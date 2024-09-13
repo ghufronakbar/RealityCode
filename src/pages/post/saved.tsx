@@ -55,11 +55,9 @@ const SavedPostPage = () => {
   };
 
   useEffect(() => {
-    if (data) {
-      setFilteredData(
-        data.data.filter((post) => post.title.toLowerCase().includes(search))
-      );
-    }
+    setFilteredData((prev) =>
+      prev.filter((post) => post.title.toLowerCase().includes(search))
+    );
   }, [data, search]);
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -137,15 +135,19 @@ const SavedPostPage = () => {
           ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
         </div>
-        {!isLoading &&
-          !isFetching &&
-          data &&
-          data.data.length === 0 &&
-          !isError && (
-            <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-              No favorited posts found
-            </div>
-          )}
+        {!isLoading && !isFetching && filteredData.length === 0 && !isError && (
+          <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
+            No favorited posts found{" "}
+            {router.query.search && (
+              <span>
+                with keyword{" "}
+                <span className="font-semibold">
+                  &quot;{router.query.search}&quot;
+                </span>
+              </span>
+            )}
+          </div>
+        )}
         {isError && <div className="text-red-500">Error loading posts</div>}
         <div className="lg:hidden block w-full mt-4">
           <Footer />
