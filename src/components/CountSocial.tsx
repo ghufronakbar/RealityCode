@@ -9,26 +9,45 @@ export interface DataSocial {
   likes: number;
 }
 
+const initData: DataSocial = {
+  instagram: 0,
+  tiktok: 0,
+  threads: 0,
+  likes: 0,
+};
+
 const CountSocial = () => {
-  const [dataSocial, setDataSocial] = useState<DataSocial>({
-    instagram: 0,
-    tiktok: 0,
-    threads: 0,
-    likes: 0,
-  });
+  const [dataSocial, setDataSocial] = useState<DataSocial>(initData);
 
-  const [displaySocial, setDisplaySocial] = useState<DataSocial>({
-    instagram: 0,
-    tiktok: 0,
-    threads: 0,
-    likes: 0,
-  });
+  const [displaySocial, setDisplaySocial] = useState<DataSocial>(initData);
 
-  const { data, isError } = useQuery({
-    queryKey: ["socialmedia/overviews"],
-    queryFn: () => getOverviewWithCache(),
-    refetchOnWindowFocus: false,
-  });
+  // const { data, isError } = useQuery({
+  //   queryKey: ["socialmedia/overviews"],
+  //   queryFn: () => getOverviewWithCache(),
+  //   refetchOnWindowFocus: false,
+  // });
+
+  const fetchData = async () => {
+    try {
+      const data = await getOverviewWithCache();
+      setDataSocial({
+        instagram: data.data.instagram.followers,
+        tiktok: data.data.tiktok.followers,
+        threads: data.data.threads.followers,
+        likes: data.data.tiktok.like,
+      });
+    } catch (error) {
+      setDataSocial({
+        instagram: 10,
+        tiktok: 32,
+        threads: 325,
+        likes: 313,
+      });
+    }
+  };
+  useEffect(() => {
+    fetchData();
+  },[])
 
   const animateCounting = (target: number, key: keyof typeof displaySocial) => {
     let start = displaySocial[key];
@@ -50,22 +69,22 @@ const CountSocial = () => {
     }, 50);
   };
 
-  useEffect(() => {
-    if (data) {
-      const newSocialData = {
-        instagram: data.data.instagram.followers,
-        tiktok: data.data.tiktok.followers,
-        threads: data.data.threads.followers,
-        likes: data.data.tiktok.like,
-      };
-      setDataSocial(newSocialData);
+  // useEffect(() => {
+  //   if (data) {
+  //     const newSocialData = {
+  //       instagram: data.data.instagram.followers,
+  //       tiktok: data.data.tiktok.followers,
+  //       threads: data.data.threads.followers,
+  //       likes: data.data.tiktok.like,
+  //     };
+  //     setDataSocial(newSocialData);
 
-      Object.keys(newSocialData).forEach((key) => {
-        const typedKey = key as keyof typeof displaySocial;
-        animateCounting(newSocialData[typedKey], typedKey);
-      });
-    }
-  }, [data]);
+  //     Object.keys(newSocialData).forEach((key) => {
+  //       const typedKey = key as keyof typeof displaySocial;
+  //       animateCounting(newSocialData[typedKey], typedKey);
+  //     });
+  //   }
+  // }, [data]);
 
   useEffect(() => {
     const handleFocus = () => {
@@ -81,14 +100,14 @@ const CountSocial = () => {
     };
   }, [dataSocial]);
 
-  if (isError) {
-    setDisplaySocial({
-      instagram: 10,
-      tiktok: 32,
-      threads: 325,
-      likes: 313,
-    });
-  }
+  // if (isError) {
+  //   setDisplaySocial({
+  //     instagram: 10,
+  //     tiktok: 32,
+  //     threads: 325,
+  //     likes: 313,
+  //   });
+  // }
 
   return (
     <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-4 mt-6 mb-2">

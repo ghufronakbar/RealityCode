@@ -88,8 +88,7 @@ const PostPage = () => {
           scrollableDiv.addEventListener("scroll", handleScroll);
         }
         window.removeEventListener("scroll", handleWindowScroll);
-      } else {
-        // Mobile mode, attach scroll listener to window
+      } else {        
         window.addEventListener("scroll", handleWindowScroll);
         if (scrollableDiv) {
           scrollableDiv.removeEventListener("scroll", handleScroll);
