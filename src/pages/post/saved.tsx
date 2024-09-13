@@ -60,8 +60,6 @@ const SavedPostPage = () => {
     }
   }, [data]);
 
-
-
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
     router.push({
@@ -122,34 +120,42 @@ const SavedPostPage = () => {
 
       <div className="flex flex-col w-full lg:w-2/3 items-center lg:py-12 h-full lg:overflow-auto hide-scroll">
         <div className="w-full grid grid-cols-3 gap-1 md-gap-2 lg:gap-4">
-          {filteredData.filter((post) => post.title.toLowerCase().includes(search)).map((item, index) => (
-            <Card
-              key={index}
-              card={item}
-              index={index}
-              hovered={hovered}
-              setHovered={setHovered}
-              onClick={() => {
-                setIsOpen(true);
-                setPost(item);
-              }}
-            />
-          ))}
+          {filteredData
+            .filter((post) => post.title.toLowerCase().includes(search))
+            .map((item, index) => (
+              <Card
+                key={index}
+                card={item}
+                index={index}
+                hovered={hovered}
+                setHovered={setHovered}
+                onClick={() => {
+                  setIsOpen(true);
+                  setPost(item);
+                }}
+              />
+            ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
         </div>
         {!isLoading && !isFetching && filteredData.length === 0 && !isError && (
           <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-            No favorited posts found{" "}
-            {router.query.search && (
-              <span>
-                with keyword{" "}
-                <span className="font-semibold">
-                  &quot;{router.query.search}&quot;
-                </span>
-              </span>
-            )}
+            No favorited posts found
           </div>
         )}
+        {!isLoading &&
+          !isFetching &&
+          filteredData.filter((post) =>
+            post.title.toLowerCase().includes(search)
+          ).length === 0 &&
+          !isError && (
+            <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
+              No favorited posts found{" "}
+              <span>
+                with keyword{" "}
+                <span className="font-semibold">&quot;{search}&quot;</span>
+              </span>
+            </div>
+          )}
         {isError && <div className="text-red-500">Error loading posts</div>}
         <div className="lg:hidden block w-full mt-4">
           <Footer />
