@@ -9,12 +9,12 @@ import {
 import Link from "next/link";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import { BsFillFilePostFill } from "react-icons/bs";
 import { GoLink } from "react-icons/go";
 import { COOKIES_KEY } from "@/constants/key";
 import Cookies from "js-cookie";
 import { useToast } from "@/components/ToastNotification";
 import { RiBookMarkedLine } from "react-icons/ri";
+import { TbSection } from "react-icons/tb";
 
 export default function SidebarDemo({
   children,
@@ -28,6 +28,13 @@ export default function SidebarDemo({
       href: "/admin/dashboard",
       icon: (
         <IconBrandTabler className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
+      ),
+    },
+    {
+      label: "Section",
+      href: "/admin/section",
+      icon: (
+        <TbSection className="text-neutral-700 dark:text-neutral-200 h-5 w-5 flex-shrink-0" />
       ),
     },
     {
@@ -114,7 +121,13 @@ export const Logo = () => {
       href="/admin/dashboard"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <Image src="/logo.jpg" width={50} height={50} alt="Avatar" className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0 object-cover" />            
+      <Image
+        src="/logo.jpg"
+        width={50}
+        height={50}
+        alt="Avatar"
+        className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0 object-cover"
+      />
       <motion.span
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -131,7 +144,13 @@ export const LogoIcon = () => {
       href="/admin/dashboard"
       className="font-normal flex space-x-2 items-center text-sm text-black py-1 relative z-20"
     >
-      <Image src="/logo.jpg" width={50} height={50} alt="Avatar" className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0 object-cover" />      
+      <Image
+        src="/logo.jpg"
+        width={50}
+        height={50}
+        alt="Avatar"
+        className="h-5 w-6 bg-black dark:bg-white rounded-br-lg rounded-tr-sm rounded-tl-lg rounded-bl-sm flex-shrink-0 object-cover"
+      />
     </Link>
   );
 };

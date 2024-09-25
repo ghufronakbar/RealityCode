@@ -1,131 +1,49 @@
-import React, { useEffect, useState, useRef } from "react";
+import React, { useEffect, useState } from "react";
 import Link from "next/link";
 import socialMedias from "@/data/socialMedia";
 import description from "@/data/description";
-import { Post } from "@/models/Post";
-import { Card, LoadingCard } from "@/components/ui/focus-card";
+import { Card, LoadingCard } from "@/components/ui/focus-card-section";
 import Footer from "@/components/Footer";
-import ModalPost from "@/components/ModalPost";
 import { keepPreviousData, useQuery } from "@tanstack/react-query";
-import getAllPost from "@/services/post/getAllPost";
-import { Limitation } from "@/models/Limitation";
 import formatContent from "@/utils/format/formatContent";
 import { PlaceholdersAndVanishInput } from "@/components/ui/placeholders-and-vanish-input";
 import { useRouter } from "next/router";
-import useDebounce from "@/utils/useDebounce";
 import CountSocial from "@/components/CountSocial";
+import { getAllSection } from "@/services/section";
+import { Section, SubSection } from "@/models/Section";
 
 const PostPage = () => {
   const router = useRouter();
-  const [isOpen, setIsOpen] = useState<boolean>(false);
   const [hovered, setHovered] = useState<number | null>(null);
-  const [post, setPost] = useState<Post | null>(null);
-  const [limit, setLimit] = useState<number>(7);
-  const [limitation, setLimitation] = useState<Limitation>({
-    currentData: 0,
-    totalData: 0,
-  });
-  const [search, setSearch] = useState<string>(
-    (router.query.search as string) || ""
-  );
+  const [subSection, setSubSection] = useState<SubSection[]>([]);
+  const [search, setSearch] = useState<string>(router.query.search as string);
 
-  const scrollableDivRef = useRef<HTMLDivElement | null>(null);
-
-  const { data, isLoading, isFetching, isError, refetch } = useQuery({
-    queryKey: ["posts/page", limit, search],
-    queryFn: () => getAllPost(limit, search),
+  const { data, isLoading, isFetching, isError } = useQuery({
+    queryKey: ["section"],
+    queryFn: () => getAllSection(),
     refetchOnWindowFocus: false,
     placeholderData: keepPreviousData,
   });
 
   useEffect(() => {
-    if (data && data.limitation) {
-      setLimitation(data.limitation);
+    if (data) {
+      const filteredSubSections = data.data.reduce(
+        (acc: SubSection[], section: Section) => {
+          return [...acc, ...section.subsections];
+        },
+        []
+      );
+
+      setSubSection(filteredSubSections);
     }
   }, [data]);
 
-  const handleScroll = () => {
-    const scrollableDiv = scrollableDivRef.current;
-
-    if (scrollableDiv) {
-      const scrollTop = scrollableDiv.scrollTop;
-      const scrollHeight = scrollableDiv.scrollHeight;
-      const clientHeight = scrollableDiv.clientHeight;
-
-      if (
-        scrollTop + clientHeight >= scrollHeight - 50 &&
-        limitation.currentData < limitation.totalData &&
-        !isLoading &&
-        !isFetching
-      ) {
-        setLimit((prevLimit) => prevLimit + 5);
-      }
-    }
-  };
-
-  const handleWindowScroll = () => {
-    const scrollTop = window.scrollY;
-    const scrollHeight = document.documentElement.scrollHeight;
-    const clientHeight = window.innerHeight;
-
-    if (
-      scrollTop + clientHeight >= scrollHeight - 50 &&
-      limitation.currentData < limitation.totalData &&
-      !isLoading &&
-      !isFetching
-    ) {
-      setLimit((prevLimit) => prevLimit + 5);
-    }
-  };
-
-  useEffect(() => {
-    const mediaQuery = window.matchMedia("(min-width: 1024px)");
-    const scrollableDiv = scrollableDivRef.current;
-
-    const handleResize = (e: MediaQueryListEvent) => {
-      if (e.matches) {
-        if (scrollableDiv) {
-          scrollableDiv.addEventListener("scroll", handleScroll);
-        }
-        window.removeEventListener("scroll", handleWindowScroll);
-      } else {        
-        window.addEventListener("scroll", handleWindowScroll);
-        if (scrollableDiv) {
-          scrollableDiv.removeEventListener("scroll", handleScroll);
-        }
-      }
-    };
-
-    if (mediaQuery.matches) {
-      if (scrollableDiv) {
-        scrollableDiv.addEventListener("scroll", handleScroll);
-      }
-    } else {
-      window.addEventListener("scroll", handleWindowScroll);
-    }
-
-    mediaQuery.addEventListener("change", handleResize);
-
-    return () => {
-      if (scrollableDiv) {
-        scrollableDiv.removeEventListener("scroll", handleScroll);
-      }
-      window.removeEventListener("scroll", handleWindowScroll);
-      mediaQuery.removeEventListener("change", handleResize);
-    };
-  }, [limitation, isLoading, isFetching]);
-
-  useDebounce(
-    () => {
-      setSearch((router.query.search as string) || "");
-      refetch();
-    },
-    500,
-    [router.query.search]
-  );
-
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    router.push(`/post?search=${e.target.value}`);
+    router.push({
+      pathname: router.pathname,
+      query: { ...router.query, search: e.target.value },
+    });
+    setSearch(e.target.value);
   };
 
   return (
@@ -163,7 +81,7 @@ const PostPage = () => {
               "JavaScript",
               "Rest API",
             ]}
-            onChange={handleChangeSearch}
+            onChange={(e) => handleChangeSearch(e)}
             onSubmit={() => {}}
           />
         </div>
@@ -179,58 +97,50 @@ const PostPage = () => {
         </div>
       </div>
 
-      <div
-        ref={scrollableDivRef}
-        className="flex flex-col w-full lg:w-2/3 items-center lg:py-12 h-full lg:overflow-auto hide-scroll"
-      >
+      <div className="flex flex-col w-full lg:w-2/3 items-center lg:py-12 h-full lg:overflow-auto hide-scroll">
         <div className="w-full grid grid-cols-3 gap-1 md-gap-2 lg:gap-4">
-          {data &&
-            !isError &&
-            data.data.map((item, index) => (
-              <Card
-                key={index}
-                card={item}
-                index={index}
-                hovered={hovered}
-                setHovered={setHovered}
-                onClick={() => {
-                  setIsOpen(true);
-                  setPost(item);
-                }}
-              />
-            ))}
+          {!isFetching &&
+            !isLoading &&
+            subSection
+              .filter((item) => item.title.includes(search))
+              .map((item, index) => (
+                <Link
+                  href={`/post/${item.id}`}
+                  prefetch={false}
+                  key={" link subsection " + item.id}
+                >
+                  <Card
+                    key={"thumbnail subsection " + item.id}
+                    card={item}
+                    index={index}
+                    hovered={hovered}
+                    setHovered={setHovered}
+                  />
+                </Link>
+              ))}
           {isLoading || isFetching ? <LoadingCard count={5} /> : null}
         </div>
+
+        {isError && <div className="text-red-500">Error loading posts</div>}
         {!isLoading &&
           !isFetching &&
           data &&
-          data.data.length === 0 &&
+          data.data.filter((item) => item.title.includes(search)).length ===
+            0 &&
           !isError &&
           search !== "" && (
             <div className="text-sm lg:text-base max-w-2xl my-4 mx-auto text-neutral-500 text-center font-normal dark:text-neutral-300">
-              No posts found with keyword{" "}
+              No section found with keyword{" "}
               <span className="font-semibold">&quot;{search}&quot;</span>
             </div>
           )}
-        {isError && <div className="text-red-500">Error loading posts</div>}
+
         <div className="lg:hidden block w-full mt-4">
           <Footer />
         </div>
       </div>
-
-      {post && (
-        <ModalPost
-          isOpen={isOpen}
-          onClose={() => {
-            setIsOpen(false);
-            setPost(null);
-          }}
-          post={post}
-        />
-      )}
     </div>
   );
 };
-
 
 export default PostPage;

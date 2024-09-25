@@ -10,11 +10,12 @@ interface PostSuccess extends ResponseSuccess {
 
 const getAllPost = async (
   limit: number,
-  search: string
+  search: string,
+  subSectionId: number
 ): Promise<PostSuccess> => {
   try {
     const response = await axiosInstance.get("/post", {
-      params: { limit, search },
+      params: { limit, search, subSectionId },
     });
     return response.data;
   } catch (error) {

@@ -69,23 +69,6 @@ const CountSocial = () => {
     }, 50);
   };
 
-  // useEffect(() => {
-  //   if (data) {
-  //     const newSocialData = {
-  //       instagram: data.data.instagram.followers,
-  //       tiktok: data.data.tiktok.followers,
-  //       threads: data.data.threads.followers,
-  //       likes: data.data.tiktok.like,
-  //     };
-  //     setDataSocial(newSocialData);
-
-  //     Object.keys(newSocialData).forEach((key) => {
-  //       const typedKey = key as keyof typeof displaySocial;
-  //       animateCounting(newSocialData[typedKey], typedKey);
-  //     });
-  //   }
-  // }, [data]);
-
   useEffect(() => {
     const handleFocus = () => {
       Object.keys(dataSocial).forEach((key) => {
@@ -100,14 +83,6 @@ const CountSocial = () => {
     };
   }, [dataSocial]);
 
-  // if (isError) {
-  //   setDisplaySocial({
-  //     instagram: 10,
-  //     tiktok: 32,
-  //     threads: 325,
-  //     likes: 313,
-  //   });
-  // }
 
   return (
     <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-4 mt-6 mb-2">

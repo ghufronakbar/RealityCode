@@ -29,7 +29,7 @@ import { Select } from "@/components/ui/select";
 import { useRouter } from "next/router";
 import { Section, SubSection } from "@/models/Section";
 
-const PostPage: React.FC = () => {
+const SectionPage: React.FC = () => {
   const router = useRouter();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [isConfirm, setIsConfirm] = useState<boolean>(false);
@@ -40,10 +40,7 @@ const PostPage: React.FC = () => {
     id: 0,
     image: "/",
   });
-  const [limitation, setLimitation] = useState<Limitation>({
-    currentData: 0,
-    totalData: 0,
-  });
+
   const [formPost, setFormPost] = useState<FormPost>({
     title: "",
     content: "",
@@ -52,8 +49,8 @@ const PostPage: React.FC = () => {
   const section = (router.query.section as string) || "0";
   const { showToast } = useToast();
   const { data, isLoading, isFetching, refetch } = useQuery({
-    queryKey: ["admin/post", limit, section],
-    queryFn: () => getAllPost(limit, "", Number(section)),
+    queryKey: ["admin/section/page"],
+    queryFn: () => getAllSection(),
     refetchOnWindowFocus: false,
   });
 
@@ -63,11 +60,7 @@ const PostPage: React.FC = () => {
     refetchOnWindowFocus: false,
     staleTime: Infinity,
   });
-  useEffect(() => {
-    if (data) {
-      setLimitation(data.limitation);
-    }
-  }, [data]);
+
   const handleFileUpload = (files: File[]) => {
     setFormPost({
       ...formPost,
@@ -161,16 +154,10 @@ const PostPage: React.FC = () => {
     }
   };
 
-  const handleLoadMore = () => {
-    if (limitation.currentData < limitation.totalData) {
-      setLimit(limit + 3);
-    }
-  };
-
   return (
     <Sidebar>
       <LayoutDashboard
-        title="Post"
+        title="Section"
         childrenHeader={
           <div className="flex gap-4">
             <Select
@@ -220,66 +207,43 @@ const PostPage: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {data.data.map((item, index) => (
-                  <tr key={item.id} className=" border-b dark:border-gray-700">
-                    <th
-                      scope="row"
-                      className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                {data?.data.flatMap((section: Section) =>
+                  section.subsections.map((item, index) => (
+                    <tr
+                      key={item.id}
+                      className=" border-b dark:border-gray-700"
                     >
-                      {index + 1}
-                    </th>
-                    <td className="px-6 py-4">
-                      <Image
-                        src={item.images[0].url}
-                        alt={item.title}
-                        width={200}
-                        height={200}
-                        className="w-20 aspect-1 object-cover rounded-md"
-                      />
-                    </td>
-                    <td className="px-6 py-4">{item.title}</td>
-                    <td className="px-6 py-4">
-                      {formatString(item.content, 100)}
-                    </td>
-                    <td className="px-6 py-4">{formatDate(item.createdAt)}</td>
-                    <td className="px-6 py-4 flex gap-2">
-                      <Button
-                        onClick={() => {
-                          setIsOpen(true);
-                          setSelected({
-                            id: item.id,
-                            image: item.images[0].url,
-                          });
-                          setFormPost({
-                            title: item.title,
-                            content: item.content,
-                            images: [],
-                          });
-                        }}
+                      <th
+                        scope="row"
+                        className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
                       >
-                        Edit
-                      </Button>
-                      <Button
-                        onClick={() => {
-                          setSelected({
-                            id: item.id,
-                            image: item.images[0].url,
-                          });
-                          setIsConfirm(true);
-                        }}
-                      >
-                        Delete
-                      </Button>
-                    </td>
-                  </tr>
-                ))}
+                        {index + 1}
+                      </th>
+                      <td className="px-6 py-4">
+                        <Image
+                          src={item.thumbnail || "/"}
+                          alt={item.title}
+                          width={200}
+                          height={200}
+                          className="w-20 aspect-1 object-cover rounded-md"
+                        />
+                      </td>
+                      <td className="px-6 py-4">{item.title}</td>
+                      <td className="px-6 py-4">
+                        {formatString(item.description, 100)}
+                      </td>
+                      <td className="px-6 py-4">
+                        {formatDate(item.createdAt)}
+                      </td>
+                      <td className="px-6 py-4 flex gap-2">
+                        <Button>Edit</Button>
+                        <Button>Delete</Button>
+                      </td>
+                    </tr>
+                  ))
+                )}
               </tbody>
             </table>
-          </div>
-        )}
-        {data && limitation.currentData < limitation.totalData && (
-          <div className="self-end mt-4">
-            <Button onClick={handleLoadMore}>Load More</Button>
           </div>
         )}
       </LayoutDashboard>
@@ -401,4 +365,4 @@ const PostPage: React.FC = () => {
   );
 };
 
-export default withAuth(PostPage);
+export default withAuth(SectionPage);
