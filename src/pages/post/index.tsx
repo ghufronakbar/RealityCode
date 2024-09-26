@@ -16,7 +16,7 @@ const PostPage = () => {
   const router = useRouter();
   const [hovered, setHovered] = useState<number | null>(null);
   const [subSection, setSubSection] = useState<SubSection[]>([]);
-  const [search, setSearch] = useState<string>(router.query.search as string);
+  const [search, setSearch] = useState<string>(router.query.search as string || "");
 
   const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ["section"],
