@@ -21,33 +21,57 @@ const CountSocial = () => {
 
   const [displaySocial, setDisplaySocial] = useState<DataSocial>(initData);
 
-  // const { data, isError } = useQuery({
-  //   queryKey: ["socialmedia/overviews"],
-  //   queryFn: () => getOverviewWithCache(),
-  //   refetchOnWindowFocus: false,
-  // });
+  const { data, isError } = useQuery({
+    queryKey: ["socialmedia/overviews"],
+    queryFn: () => getOverviewWithCache(),
+    refetchOnWindowFocus: false,
+    staleTime: Infinity,
+  });
 
-  const fetchData = async () => {
-    try {
-      const data = await getOverviewWithCache();
+  // const fetchData = async () => {
+  //   try {
+  //     const data = await getOverviewWithCache();
+  //     setDataSocial({
+  //       instagram: data.data.instagram.followers,
+  //       tiktok: data.data.tiktok.followers,
+  //       threads: data.data.threads.followers,
+  //       likes: data.data.tiktok.like,
+  //     });
+  //   } catch (error) {
+  //     setDataSocial({
+  //       instagram: 14,
+  //       tiktok: 52,
+  //       threads: 725,
+  //       likes: 623,
+  //     });
+  //   }
+  // };
+
+  useEffect(() => {
+    // fetchData();
+    if (data) {
       setDataSocial({
         instagram: data.data.instagram.followers,
         tiktok: data.data.tiktok.followers,
         threads: data.data.threads.followers,
         likes: data.data.tiktok.like,
       });
-    } catch (error) {
+    }
+    if (isError) {
       setDataSocial({
-        instagram: 10,
-        tiktok: 32,
-        threads: 325,
-        likes: 313,
+        instagram: 14,
+        tiktok: 52,
+        threads: 725,
+        likes: 623,
       });
     }
-  };
-  useEffect(() => {
-    fetchData();
-  },[])
+    setTimeout(() => {
+      animateCounting(dataSocial.threads, "threads");
+      animateCounting(dataSocial.instagram, "instagram");
+      animateCounting(dataSocial.tiktok, "tiktok");
+      animateCounting(dataSocial.likes, "likes");
+    }, 100);
+  }, [data, isError]);
 
   const animateCounting = (target: number, key: keyof typeof displaySocial) => {
     let start = displaySocial[key];
@@ -82,7 +106,6 @@ const CountSocial = () => {
       window.removeEventListener("focus", handleFocus);
     };
   }, [dataSocial]);
-
 
   return (
     <div className="w-full grid grid-cols-4 sm:grid-cols-6 md:grid-cols-8 lg:grid-cols-4 mt-6 mb-2">

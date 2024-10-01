@@ -62,7 +62,7 @@ const SavedPostPage = () => {
 
   const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     setSearch(e.target.value);
-    router.push({
+    router.replace({
       pathname: router.pathname,
       query: { search: e.target.value },
     });

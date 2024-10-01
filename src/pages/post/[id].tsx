@@ -60,35 +60,27 @@ const PostPage = () => {
     placeholderData: keepPreviousData,
   });
 
+  const { id } = router.query as { id: string };
   useEffect(() => {
-    if (!isLoadingSections && !isFetchingSections) {
-      if (sections && sections.data.length > 0) {
-        console.log(sections);
-        const findSection = sections.data.find(
-          (section: Section) =>
-            section.subsections[0].sectionId === Number(router.query.id)
-        );
-        console.log(findSection);
-        const findSubSection = findSection?.subsections.find(
-          (subSection: SubSection) =>
-            subSection.sectionId === Number(router.query.id)
+    if (router.isReady && sections) {
+      const subSection = sections.data
+        .flatMap((section: Section) => section.subsections)
+        .find((subSection: SubSection) => subSection.id === Number(id));
+
+      if (subSection) {
+        const section = sections.data.find((section: Section) =>
+          section.subsections.some(
+            (sub: SubSection) => sub.id === subSection.id
+          )
         );
 
-        console.log(findSubSection);
-        if (findSubSection) {
-          setSelectedSubSection(findSubSection);
-        }
-        if (findSection) {
-          setSelectedSection(findSection);
-        } else if (!findSection) {
-          console.log("redirect");
-          router.push("/post");
+        setSelectedSubSection(subSection);
+        if (section) {
+          setSelectedSection(section);
         }
       }
     }
-  }, [sections, isLoadingSections, isFetchingSections, router.query.id]);
-
-  const { id } = router.query as { id: string };
+  }, [sections, isLoadingSections, isFetchingSections, router.isReady, id]);
 
   const scrollableDivRef = useRef<HTMLDivElement | null>(null);
 
@@ -100,14 +92,13 @@ const PostPage = () => {
   });
 
   useEffect(() => {
-    console.log(data, isError);
-    if (isError) {
+    if (isError && router.isReady) {
       router.push("/post");
     }
     if (data && data.limitation) {
       setLimitation(data.limitation);
     }
-  }, [data, isError]);
+  }, [data, isError, router]);
 
   const handleScroll = () => {
     const scrollableDiv = scrollableDivRef.current;
@@ -178,7 +169,7 @@ const PostPage = () => {
       window.removeEventListener("scroll", handleWindowScroll);
       mediaQuery.removeEventListener("change", handleResize);
     };
-  }, [limitation, isLoading, isFetching]);
+  }, [limitation, isLoading, isFetching, handleScroll, handleWindowScroll]);
 
   useDebounce(
     () => {
@@ -190,7 +181,7 @@ const PostPage = () => {
   );
 
   const handleChangeSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
-    router.push({
+    router.replace({
       pathname: router.pathname,
       query: { ...router.query, search: e.target.value },
     });

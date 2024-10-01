@@ -16,7 +16,9 @@ const PostPage = () => {
   const router = useRouter();
   const [hovered, setHovered] = useState<number | null>(null);
   const [subSection, setSubSection] = useState<SubSection[]>([]);
-  const [search, setSearch] = useState<string>(router.query.search as string || "");
+  const [search, setSearch] = useState<string>(
+    (router.query.search as string) || ""
+  );
 
   const { data, isLoading, isFetching, isError } = useQuery({
     queryKey: ["section"],
@@ -122,10 +124,9 @@ const PostPage = () => {
         </div>
 
         {isError && <div className="text-red-500">Error loading posts</div>}
-        {!isLoading &&
-          !isFetching &&
-          data &&
-          data.data.filter((item) => item.title.includes(search)).length ===
+        {!isFetching &&
+          !isLoading &&
+          subSection.filter((item) => item.title.includes(search)).length ===
             0 &&
           !isError &&
           search !== "" && (
